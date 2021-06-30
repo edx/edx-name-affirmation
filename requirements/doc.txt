@@ -62,7 +62,7 @@ edx-django-utils==4.1.0
     # via edx-drf-extensions
 edx-drf-extensions==6.5.0
     # via -r requirements/base.in
-edx-opaque-keys==2.2.1
+edx-opaque-keys==2.2.2
     # via edx-drf-extensions
 edx-sphinx-theme==2.1.0
     # via -r requirements/doc.in
@@ -164,7 +164,7 @@ stevedore==3.3.0
     #   doc8
     #   edx-django-utils
     #   edx-opaque-keys
-urllib3==1.26.5
+urllib3==1.26.6
     # via requests
 webencodings==0.5.1
     # via bleach
