@@ -35,3 +35,19 @@ class VerifiedName(TimeStampedModel):
         """ Meta class for this Django model """
         db_table = 'nameaffirmation_verifiedname'
         verbose_name = 'verified name'
+
+
+class VerifiedNameConfig(TimeStampedModel):
+    """
+    This model provides various configuration fields for users regarding their
+    verified name.
+
+    .. no_pii: This model has no PII.
+    """
+    user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
+    use_verified_name_for_certs = models.BooleanField(default=False)
+
+    class Meta:
+        """ Meta class for this Django model """
+        db_table = 'nameaffirmation_verifiednameconfig'
+        verbose_name = 'verified name config'
