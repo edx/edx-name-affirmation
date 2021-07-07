@@ -9,6 +9,7 @@ from django.test import TestCase
 
 from edx_name_affirmation.api import (
     create_verified_name,
+    are_name_edits_valid,
     get_verified_name,
     update_is_verified_status,
     update_verification_attempt_id
@@ -246,3 +247,17 @@ class TestVerifiedNameAPI(TestCase):
             proctored_exam_attempt_id, is_verified
         )
         return get_verified_name(self.user)
+
+    @ddt.data(
+        ("Bob Smith", "Robert Smith", False),
+        ("BobSmith", "Bob  Smith", False),
+        ("Bob Smith", "Bob E Smith", True),
+        ("Bob Smith", "Bob ES mith", True),
+        ("Bob E Smith", "Bob  E  Smith", False),
+        ("Bob E Smith", "Bob E Smi Th", True),
+        ("Bob E Smith", "Bob Smi Th", False),
+        ("cat", "c a r", True),
+    )
+    @ddt.unpack
+    def test_edits_valid(self, name_1, name_2, expected):
+        self.assertEqual(are_name_edits_valid(name_1, name_2), expected)

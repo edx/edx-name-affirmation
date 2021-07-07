@@ -212,3 +212,58 @@ def update_is_verified_status(
         )
     )
     log.info(log_msg)
+
+
+def _edit_distance(old_name, new_name):
+    """
+    Return number of edits needed to transform one string into the other
+    """
+    if len(old_name) == 0:
+        return len(new_name)
+
+    if len(new_name) == 0:
+        return len(old_name)
+
+    if old_name[-1] == new_name[-1]:
+        return _edit_distance(old_name[:-1], new_name[:-1])
+
+    return 1 + min(
+        _edit_distance(old_name, new_name[:-1]),  # insert
+        _edit_distance(old_name[:-1], new_name),  # remove
+        _edit_distance(old_name[:-1], new_name[:-1])  # replace
+    )
+
+def _added_space_valid(old_name, new_name):
+    """
+    Return true if added spaces are valid
+    """
+
+    # check that no more than 2 spaces have been added or removed
+    old_space_count = old_name.count(' ')
+    new_space_count = new_name.count(' ')
+    diff_count = abs(old_space_count - new_space_count)
+    if diff_count > 2:
+        return False
+
+    # check that added spaces occur in a valid place (i.e. cannot have two spaces in a row)
+    old_splits = old_name.split()
+    new_splits = new_name.split()
+    diff_splits = abs(len(old_splits) - len(new_splits))
+    if diff_count != diff_splits:
+        return False
+
+    return True
+
+def are_name_edits_valid(old_name, new_name):
+    """
+    Return true if new name contains only valid edits, false otherwise
+    Valid edits include one character change (insert/replace/remove) and the addition of at most two spaces
+    """
+    # check edits without spaces
+    edits = _edit_distance(old_name.replace(" ", ""), new_name.replace(" ", ""))
+    if edits > 1:
+        return False
+
+    # check that any addition of spaces is valid
+    spaces_valid = _added_space_valid(old_name, new_name)
+    return spaces_valid
