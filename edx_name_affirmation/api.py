@@ -75,7 +75,9 @@ def create_verified_name(
     log.info(log_msg)
 
 
-def get_verified_name(user, is_verified=False):
+def get_verified_name(
+    user, is_verified=False, verification_attempt_id=None, proctored_exam_attempt_id=None,
+):
     """
     Get the most recent VerifiedName for a given user.
 
@@ -83,15 +85,37 @@ def get_verified_name(user, is_verified=False):
         * `user` (User object)
         * `is_verified` (bool): Optional, set to True to ignore entries that are not
           verified.
+        * `verification_attempt_id` (int): Optional
+        * `proctored_exam_attempt_id` (int): Optional
+
+    Note: `verification_attempt_id` and `proctored_exam_attempt_id` cannot be combined
 
     Returns a VerifiedName object.
     """
-    verified_name_qs = VerifiedName.objects.filter(user=user).order_by('-created')
+    filters = {'user': user}
+
+    if verification_attempt_id:
+        if proctored_exam_attempt_id:
+            err_msg = (
+                'Attempted to get VerifiedName by attempt ID for user_id={user_id}, '
+                'but two different attempt IDs were given. is_verified={is_verified}, '
+                'verification_attempt_id={verification_attempt_id}, '
+                'proctored_exam_attempt_id={proctored_exam_attempt_id}'.format(
+                    user_id=user.id, is_verified={is_verified},
+                    verification_attempt_id=verification_attempt_id,
+                    proctored_exam_attempt_id=proctored_exam_attempt_id,
+                )
+            )
+            raise VerifiedNameMultipleAttemptIds(err_msg)
+        filters['verification_attempt_id'] = verification_attempt_id
+
+    if proctored_exam_attempt_id:
+        filters['proctored_exam_attempt_id'] = proctored_exam_attempt_id
 
     if is_verified:
-        return verified_name_qs.filter(is_verified=True).first()
+        filters['is_verified'] = True
 
-    return verified_name_qs.first()
+    return VerifiedName.objects.filter(**filters).order_by('-created').first()
 
 
 def update_verification_attempt_id(user, verification_attempt_id):

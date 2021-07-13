@@ -13,6 +13,10 @@ Change Log
 
 Unreleased
 ~~~~~~~~~~
+
+[0.2.0] - 2020-07-14
+~~~~~~~~~~~~~~~~~~~~
+* Update `get_verified_name` to include the ability to get by attempt ID.
 * Add PR template
 
 [0.1.2] - 2021-07-02

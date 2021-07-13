@@ -146,6 +146,43 @@ class TestVerifiedNameAPI(TestCase):
 
         self.assertIsNone(verified_name_obj)
 
+    @ddt.data(
+        (VERIFICATION_ATTEMPT_ID, None),
+        (None, PROCTORED_EXAM_ATTEMPT_ID),
+    )
+    @ddt.unpack
+    def test_get_verified_name_by_attempt_id(self, verification_attempt_id, proctored_exam_attempt_id):
+        """
+        Test to get a verified name by an attempt ID.
+        """
+        if verification_attempt_id:
+            target_verified_name = self._create_verified_name(verification_attempt_id=verification_attempt_id)
+        if proctored_exam_attempt_id:
+            target_verified_name = self._create_verified_name(proctored_exam_attempt_id=proctored_exam_attempt_id)
+        self._create_verified_name()
+
+        verified_name_obj = get_verified_name(
+            self.user,
+            verification_attempt_id=verification_attempt_id,
+            proctored_exam_attempt_id=proctored_exam_attempt_id,
+        )
+
+        self.assertEqual(target_verified_name.id, verified_name_obj.id)
+
+    def test_get_verified_name_by_two_attempt_ids(self):
+        """
+        Test that an exception is raised if trying to get a verified name by two different attempt IDs.
+        """
+        self._create_verified_name(verification_attempt_id=self.VERIFICATION_ATTEMPT_ID)
+        self._create_verified_name(proctored_exam_attempt_id=self.PROCTORED_EXAM_ATTEMPT_ID)
+
+        with self.assertRaises(VerifiedNameMultipleAttemptIds):
+            get_verified_name(
+                self.user,
+                verification_attempt_id=self.VERIFICATION_ATTEMPT_ID,
+                proctored_exam_attempt_id=self.PROCTORED_EXAM_ATTEMPT_ID,
+            )
+
     def test_update_verification_attempt_id(self):
         """
         Test that the most recent VerifiedName is updated with a verification_attempt_id if
