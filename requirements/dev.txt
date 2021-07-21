@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.6.2
+astroid==2.6.4
     # via
     #   -r requirements/quality.txt
     #   pylint
@@ -22,6 +22,10 @@ certifi==2021.5.30
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
+cffi==1.14.6
+    # via
+    #   -r requirements/quality.txt
+    #   cryptography
 chardet==4.0.0
     # via diff-cover
 charset-normalizer==2.0.3
@@ -55,6 +59,10 @@ coverage==5.5
     # via
     #   -r requirements/ci.txt
     #   codecov
+cryptography==3.4.7
+    # via
+    #   -r requirements/quality.txt
+    #   secretstorage
 diff-cover==6.2.0
     # via -r requirements/dev.in
 distlib==0.3.2
@@ -97,6 +105,11 @@ isort==5.9.2
     # via
     #   -r requirements/quality.txt
     #   pylint
+jeepney==0.7.0
+    # via
+    #   -r requirements/quality.txt
+    #   keyring
+    #   secretstorage
 jinja2==3.0.1
     # via
     #   -r requirements/quality.txt
@@ -162,6 +175,10 @@ py==1.10.0
     #   tox
 pycodestyle==2.7.0
     # via -r requirements/quality.txt
+pycparser==2.20
+    # via
+    #   -r requirements/quality.txt
+    #   cffi
 pydocstyle==6.1.1
     # via -r requirements/quality.txt
 pygments==2.9.0
@@ -169,7 +186,7 @@ pygments==2.9.0
     #   -r requirements/quality.txt
     #   diff-cover
     #   readme-renderer
-pylint==2.9.3
+pylint==2.9.4
     # via
     #   -r requirements/quality.txt
     #   edx-lint
@@ -228,6 +245,10 @@ rfc3986==1.5.0
     #   twine
 rstcheck==3.3.1
     # via -r requirements/quality.txt
+secretstorage==3.3.1
+    # via
+    #   -r requirements/quality.txt
+    #   keyring
 six==1.16.0
     # via
     #   -r requirements/ci.txt
@@ -276,7 +297,7 @@ tqdm==4.61.2
     # via
     #   -r requirements/quality.txt
     #   twine
-twine==3.4.1
+twine==3.4.2
     # via -r requirements/quality.txt
 urllib3==1.26.6
     # via
