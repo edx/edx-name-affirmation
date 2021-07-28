@@ -12,7 +12,7 @@ charset-normalizer==2.0.3
     # via requests
 click==8.0.1
     # via code-annotations
-code-annotations==1.1.2
+code-annotations==1.2.0
     # via edx-toggles
 cryptography==3.4.7
     # via pyjwt

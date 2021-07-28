@@ -22,7 +22,7 @@ click==8.0.1
     # via
     #   -r requirements/base.txt
     #   code-annotations
-code-annotations==1.1.2
+code-annotations==1.2.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.in
