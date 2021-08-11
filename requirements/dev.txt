@@ -63,7 +63,7 @@ cryptography==3.4.7
     # via
     #   -r requirements/quality.txt
     #   secretstorage
-diff-cover==6.2.1
+diff-cover==6.2.2
     # via -r requirements/dev.in
 distlib==0.3.2
     # via
@@ -279,9 +279,10 @@ toml==0.10.2
     #   -r requirements/quality.txt
     #   pylint
     #   tox
-tomli==1.2.0
+tomli==1.2.1
     # via
     #   -r requirements/pip-tools.txt
+    #   diff-cover
     #   pep517
 tox==3.24.1
     # via
@@ -302,7 +303,7 @@ urllib3==1.26.6
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-virtualenv==20.7.0
+virtualenv==20.7.1
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -310,7 +311,7 @@ webencodings==0.5.1
     # via
     #   -r requirements/quality.txt
     #   bleach
-wheel==0.36.2
+wheel==0.37.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
