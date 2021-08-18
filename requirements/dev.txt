@@ -63,7 +63,7 @@ cryptography==3.4.7
     # via
     #   -r requirements/quality.txt
     #   secretstorage
-diff-cover==6.2.1
+diff-cover==6.3.1
     # via -r requirements/dev.in
 distlib==0.3.2
     # via
@@ -94,7 +94,7 @@ idna==3.2
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==4.6.3
+importlib-metadata==4.6.4
     # via
     #   -r requirements/quality.txt
     #   keyring
@@ -118,7 +118,7 @@ jinja2==3.0.1
     #   jinja2-pluralize
 jinja2-pluralize==0.3.0
     # via diff-cover
-keyring==23.0.1
+keyring==23.1.0
     # via
     #   -r requirements/quality.txt
     #   twine
@@ -179,7 +179,7 @@ pycparser==2.20
     #   cffi
 pydocstyle==6.1.1
     # via -r requirements/quality.txt
-pygments==2.9.0
+pygments==2.10.0
     # via
     #   -r requirements/quality.txt
     #   diff-cover
@@ -279,7 +279,7 @@ toml==0.10.2
     #   -r requirements/quality.txt
     #   pylint
     #   tox
-tomli==1.2.0
+tomli==1.2.1
     # via
     #   -r requirements/pip-tools.txt
     #   pep517
@@ -291,7 +291,7 @@ tox-battery==0.6.1
     # via
     #   -r requirements/ci.txt
     #   -r requirements/dev.in
-tqdm==4.62.0
+tqdm==4.62.1
     # via
     #   -r requirements/quality.txt
     #   twine
@@ -302,7 +302,7 @@ urllib3==1.26.6
     #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
-virtualenv==20.7.0
+virtualenv==20.7.2
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -310,7 +310,7 @@ webencodings==0.5.1
     # via
     #   -r requirements/quality.txt
     #   bleach
-wheel==0.36.2
+wheel==0.37.0
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
