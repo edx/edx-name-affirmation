@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.7.2
+astroid==2.7.3
     # via
     #   pylint
     #   pylint-celery
@@ -12,6 +12,8 @@ bleach==4.1.0
     # via readme-renderer
 certifi==2021.5.30
     # via requests
+cffi==1.14.6
+    # via cryptography
 charset-normalizer==2.0.4
     # via requests
 click==8.0.1
@@ -25,20 +27,21 @@ code-annotations==1.2.0
     # via edx-lint
 colorama==0.4.4
     # via twine
+cryptography==3.4.8
+    # via secretstorage
 django==2.2.24
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/quality.in
-    #   edx-lint
 docutils==0.17.1
     # via
     #   readme-renderer
     #   rstcheck
-edx-lint==5.0.0
+edx-lint==5.1.0
     # via -r requirements/quality.in
 idna==3.2
     # via requests
-importlib-metadata==4.7.1
+importlib-metadata==4.8.1
     # via
     #   keyring
     #   twine
@@ -46,6 +49,10 @@ isort==5.9.3
     # via
     #   -r requirements/quality.in
     #   pylint
+jeepney==0.7.1
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.0.1
     # via code-annotations
 keyring==23.1.0
@@ -62,10 +69,12 @@ pbr==5.6.0
     # via stevedore
 pkginfo==1.7.1
     # via twine
-platformdirs==2.2.0
+platformdirs==2.3.0
     # via pylint
 pycodestyle==2.7.0
     # via -r requirements/quality.in
+pycparser==2.20
+    # via cffi
 pydocstyle==6.1.1
     # via -r requirements/quality.in
 pygments==2.10.0
@@ -104,6 +113,8 @@ rfc3986==1.5.0
     # via twine
 rstcheck==3.3.1
     # via -r requirements/quality.in
+secretstorage==3.3.1
+    # via keyring
 six==1.16.0
     # via
     #   bleach
