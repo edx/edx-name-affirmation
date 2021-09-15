@@ -8,7 +8,7 @@ backports.entry-points-selectable==1.1.0
     # via virtualenv
 certifi==2021.5.30
     # via requests
-charset-normalizer==2.0.4
+charset-normalizer==2.0.5
     # via requests
 codecov==2.1.12
     # via -r requirements/ci.in
@@ -24,7 +24,7 @@ idna==3.2
     # via requests
 packaging==21.0
     # via tox
-platformdirs==2.2.0
+platformdirs==2.3.0
     # via virtualenv
 pluggy==0.13.1
     # via

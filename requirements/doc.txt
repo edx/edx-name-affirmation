@@ -14,7 +14,7 @@ certifi==2021.5.30
     # via requests
 cffi==1.14.6
     # via cryptography
-charset-normalizer==2.0.4
+charset-normalizer==2.0.5
     # via requests
 click==8.0.1
     # via code-annotations
@@ -67,7 +67,7 @@ drf-jwt==1.19.0
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   edx-drf-extensions
-edx-django-utils==4.3.0
+edx-django-utils==4.4.0
     # via
     #   django-config-models
     #   edx-drf-extensions
@@ -160,7 +160,7 @@ six==1.16.0
     #   sphinxcontrib-napoleon
 snowballstemmer==2.1.0
     # via sphinx
-sphinx==4.1.2
+sphinx==4.2.0
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
@@ -178,7 +178,7 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via django
 stevedore==3.4.0
     # via
