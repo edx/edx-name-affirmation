@@ -25,6 +25,7 @@ jobs:
           - quality
           - pii_check
           - rst_validation
+          - check_keywords
     steps:
     - uses: actions/checkout@v1
     - name: Setup python
