@@ -8,22 +8,24 @@ alabaster==0.7.12
     # via sphinx
 amqp==5.1.1
     # via kombu
-asgiref==3.5.1
+asgiref==3.5.2
     # via django
-babel==2.10.1
+babel==2.10.3
     # via sphinx
 billiard==3.6.4.0
     # via celery
 bleach==5.0.0
     # via readme-renderer
-celery==5.2.6
+celery==5.2.7
     # via
     #   -c requirements/constraints.txt
     #   edx-celeryutils
-certifi==2021.10.8
+certifi==2022.6.15
     # via requests
 cffi==1.15.0
-    # via cryptography
+    # via
+    #   cryptography
+    #   pynacl
 charset-normalizer==2.0.12
     # via requests
 click==8.1.3
@@ -33,6 +35,7 @@ click==8.1.3
     #   click-plugins
     #   click-repl
     #   code-annotations
+    #   edx-django-utils
 click-didyoumean==0.3.0
     # via celery
 click-plugins==1.1.1
@@ -47,7 +50,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==37.0.1
+cryptography==37.0.2
     # via pyjwt
 django==3.2.13
     # via
@@ -76,8 +79,10 @@ django-model-utils==4.2.0
     #   -r requirements/base.in
     #   edx-celeryutils
 django-simple-history==3.0.0
-    # via -r requirements/base.in
-django-waffle==2.4.1
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -r requirements/base.in
+django-waffle==2.5.0
     # via
     #   edx-django-utils
     #   edx-drf-extensions
@@ -90,9 +95,9 @@ djangorestframework==3.13.1
     #   drf-yasg
     #   edx-api-doc-tools
     #   edx-drf-extensions
-doc8==0.11.1
+doc8==0.11.2
     # via -r requirements/doc.in
-docutils==0.17.1
+docutils==0.18.1
     # via
     #   doc8
     #   readme-renderer
@@ -106,7 +111,7 @@ edx-api-doc-tools==1.6.0
     # via -r requirements/base.in
 edx-celeryutils==1.2.1
     # via -r requirements/base.in
-edx-django-utils==4.6.0
+edx-django-utils==5.0.0
     # via
     #   -r requirements/base.in
     #   django-config-models
@@ -118,7 +123,7 @@ edx-opaque-keys==2.3.0
     # via edx-drf-extensions
 edx-sphinx-theme==3.0.0
     # via -r requirements/doc.in
-edx-toggles==4.3.1
+edx-toggles==5.0.0
     # via -r requirements/base.in
 future==0.18.2
     # via
@@ -128,7 +133,7 @@ idna==3.3
     # via requests
 imagesize==1.3.0
     # via sphinx
-importlib-metadata==4.11.3
+importlib-metadata==4.11.4
     # via sphinx
 inflection==0.5.1
     # via drf-yasg
@@ -145,19 +150,19 @@ kombu==5.2.4
     # via celery
 markupsafe==2.1.1
     # via jinja2
-newrelic==7.10.0.175
+newrelic==7.12.0.176
     # via edx-django-utils
 packaging==21.3
     # via
     #   drf-yasg
     #   sphinx
-pbr==5.8.1
+pbr==5.9.0
     # via stevedore
 pockets==0.9.1
     # via sphinxcontrib-napoleon
 prompt-toolkit==3.0.29
     # via click-repl
-psutil==5.9.0
+psutil==5.9.1
     # via edx-django-utils
 pycparser==2.21
     # via cffi
@@ -170,13 +175,15 @@ pygments==2.12.0
     #   sphinx
 pyjwkest==1.4.2
     # via edx-drf-extensions
-pyjwt[crypto]==2.3.0
+pyjwt[crypto]==2.4.0
     # via
     #   drf-jwt
     #   edx-drf-extensions
 pymongo==3.12.3
     # via edx-opaque-keys
-pyparsing==3.0.8
+pynacl==1.5.0
+    # via edx-django-utils
+pyparsing==3.0.9
     # via packaging
 python-dateutil==2.8.2
     # via edx-drf-extensions
@@ -192,7 +199,7 @@ pyyaml==6.0
     # via code-annotations
 readme-renderer==35.0
     # via -r requirements/doc.in
-requests==2.27.1
+requests==2.28.0
     # via
     #   coreapi
     #   edx-drf-extensions
@@ -204,7 +211,7 @@ ruamel-yaml==0.17.21
     # via drf-yasg
 ruamel-yaml-clib==0.2.6
     # via ruamel-yaml
-semantic-version==2.9.0
+semantic-version==2.10.0
     # via edx-drf-extensions
 six==1.16.0
     # via
@@ -218,7 +225,7 @@ six==1.16.0
     #   sphinxcontrib-napoleon
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==4.5.0
+sphinx==5.0.2
     # via
     #   -r requirements/doc.in
     #   edx-sphinx-theme
