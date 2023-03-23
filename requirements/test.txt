@@ -7,11 +7,11 @@
     # via
     #   -r requirements/base.txt
     #   kombu
-asgiref==3.5.2
+asgiref==3.6.0
     # via
     #   -r requirements/base.txt
     #   django
-attrs==22.1.0
+attrs==22.2.0
     # via pytest
     # via
     #   -r requirements/base.txt
@@ -29,7 +29,7 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==2.1.1
+charset-normalizer==3.1.0
     # via
     #   -r requirements/base.txt
     #   requests
@@ -68,9 +68,9 @@ coreschema==0.0.4
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-coverage[toml]==6.5.0
+coverage[toml]==7.2.2
     # via pytest-cov
-cryptography==38.0.4
+cryptography==39.0.2
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -124,13 +124,13 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-drf-yasg==1.21.4
+drf-yasg==1.21.5
     # via
     #   -r requirements/base.txt
     #   edx-api-doc-tools
 edx-api-doc-tools==1.6.0
     # via -r requirements/base.txt
-edx-celeryutils==1.2.1
+edx-celeryutils==1.2.2
     # via -r requirements/base.txt
 edx-django-utils==5.2.0
     # via
@@ -138,7 +138,7 @@ edx-django-utils==5.2.0
     #   django-config-models
     #   edx-drf-extensions
     #   edx-toggles
-edx-drf-extensions==8.3.1
+edx-drf-extensions==8.4.1
     # via -r requirements/base.txt
 edx-opaque-keys==2.3.0
     # via
@@ -146,12 +146,11 @@ edx-opaque-keys==2.3.0
     #   edx-drf-extensions
 edx-toggles==5.0.0
     # via -r requirements/base.txt
-exceptiongroup==1.0.4
+exceptiongroup==1.1.1
     # via pytest
-future==0.18.2
+future==0.18.3
     # via
     #   -r requirements/base.txt
-    #   edx-celeryutils
     #   pyjwkest
 idna==3.4
     # via
@@ -161,7 +160,7 @@ inflection==0.5.1
     # via
     #   -r requirements/base.txt
     #   drf-yasg
-iniconfig==1.1.1
+iniconfig==2.0.0
     # via pytest
 itypes==1.2.0
     # via
@@ -179,28 +178,28 @@ jsonfield==3.1.0
     # via
     #   -r requirements/base.txt
     #   celery
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via
     #   -r requirements/base.txt
     #   jinja2
-mock==4.0.3
+mock==5.0.1
     # via -r requirements/test.in
-newrelic==8.5.0
+newrelic==8.7.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-packaging==22.0
+packaging==23.0
     # via
     #   -r requirements/base.txt
     #   drf-yasg
     #   pytest
-pbr==5.11.0
+pbr==5.11.1
     # via
     #   -r requirements/base.txt
     #   stevedore
 pluggy==1.0.0
     # via pytest
-prompt-toolkit==3.0.36
+prompt-toolkit==3.0.38
     # via
     #   -r requirements/base.txt
     #   click-repl
@@ -212,7 +211,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.16.0
+pycryptodomex==3.17
     # via
     #   -r requirements/base.txt
     #   pyjwkest
@@ -233,7 +232,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pytest==7.2.0
+pytest==7.2.2
     # via
     #   pytest-cov
     #   pytest-django
@@ -245,11 +244,11 @@ python-dateutil==2.8.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-python-slugify==7.0.0
+python-slugify==8.0.1
     # via
     #   -r requirements/base.txt
     #   code-annotations
-pytz==2022.6
+pytz==2022.7.1
     # via
     #   -r requirements/base.txt
     #   celery
@@ -260,7 +259,7 @@ pyyaml==6.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
-requests==2.28.1
+requests==2.28.2
     # via
     #   -r requirements/base.txt
     #   coreapi
@@ -289,7 +288,7 @@ sqlparse==0.4.3
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==4.1.1
+stevedore==5.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -308,7 +307,7 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.13
+urllib3==1.26.15
     # via
     #   -r requirements/base.txt
     #   requests
@@ -317,7 +316,7 @@ urllib3==1.26.13
     #   amqp
     #   celery
     #   kombu
-wcwidth==0.2.5
+wcwidth==0.2.6
     # via
     #   -r requirements/base.txt
     #   prompt-toolkit
