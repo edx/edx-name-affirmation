@@ -131,7 +131,7 @@ idna==3.4
     # via requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.1.0
+importlib-metadata==6.3.0
     # via sphinx
 inflection==0.5.1
     # via drf-yasg
@@ -166,7 +166,7 @@ pycparser==2.21
     # via cffi
 pycryptodomex==3.17
     # via pyjwkest
-pygments==2.14.0
+pygments==2.15.0
     # via
     #   doc8
     #   readme-renderer
