@@ -46,11 +46,12 @@ cryptography==41.0.2
     # via pyjwt
 django==3.2.20
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
     #   django-config-models
     #   django-crum
     #   django-model-utils
+    #   django-waffle
     #   djangorestframework
     #   drf-jwt
     #   drf-yasg
@@ -70,11 +71,9 @@ django-model-utils==4.3.1
     # via
     #   -r requirements/base.in
     #   edx-celeryutils
-django-simple-history==3.0.0
-    # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
-    #   -r requirements/base.in
-django-waffle==3.0.0
+django-simple-history==3.3.0
+    # via -r requirements/base.in
+django-waffle==4.0.0
     # via
     #   edx-django-utils
     #   edx-drf-extensions
@@ -93,7 +92,7 @@ drf-yasg==1.21.7
     # via edx-api-doc-tools
 edx-api-doc-tools==1.7.0
     # via -r requirements/base.in
-edx-celeryutils==1.2.2
+edx-celeryutils==1.2.3
     # via -r requirements/base.in
 edx-django-utils==5.6.0
     # via
@@ -119,7 +118,7 @@ kombu==5.3.1
     # via celery
 markupsafe==2.1.3
     # via jinja2
-newrelic==8.8.1
+newrelic==8.9.0
     # via edx-django-utils
 packaging==23.1
     # via drf-yasg
