@@ -13,3 +13,6 @@
 
 # pinning celery to latest release
 celery<6.0
+
+# incremental upgrade plan.
+django-simple-history<=3.1.1

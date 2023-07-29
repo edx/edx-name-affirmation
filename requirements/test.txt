@@ -97,8 +97,10 @@ django-model-utils==4.3.1
     # via
     #   -r requirements/base.txt
     #   edx-celeryutils
-django-simple-history==3.3.0
-    # via -r requirements/base.txt
+django-simple-history==3.1.1
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
 django-waffle==4.0.0
     # via
     #   -r requirements/base.txt
