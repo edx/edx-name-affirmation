@@ -18,8 +18,6 @@ backports-zoneinfo[tzdata]==0.2.1
     #   kombu
 billiard==4.1.0
     # via celery
-bleach==6.0.0
-    # via readme-renderer
 celery==5.3.4
     # via
     #   -c requirements/constraints.txt
@@ -144,6 +142,8 @@ markupsafe==2.1.3
     # via jinja2
 newrelic==9.0.0
     # via edx-django-utils
+nh3==0.2.14
+    # via readme-renderer
 packaging==23.1
     # via
     #   drf-yasg
@@ -187,7 +187,7 @@ pyyaml==6.0.1
     # via
     #   code-annotations
     #   drf-yasg
-readme-renderer==41.0
+readme-renderer==42.0
     # via -r requirements/doc.in
 requests==2.31.0
     # via
@@ -199,7 +199,6 @@ semantic-version==2.10.0
     # via edx-drf-extensions
 six==1.16.0
     # via
-    #   bleach
     #   edx-drf-extensions
     #   edx-sphinx-theme
     #   pockets
@@ -257,7 +256,5 @@ vine==5.0.0
     #   kombu
 wcwidth==0.2.6
     # via prompt-toolkit
-webencodings==0.5.1
-    # via bleach
 zipp==3.16.2
     # via importlib-metadata
