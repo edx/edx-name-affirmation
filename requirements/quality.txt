@@ -46,7 +46,7 @@ edx-lint==5.3.6
     # via -r requirements/quality.in
 idna==3.6
     # via requests
-importlib-metadata==6.8.0
+importlib-metadata==7.0.0
     # via
     #   keyring
     #   rstcheck
@@ -84,10 +84,8 @@ pbr==6.0.0
     # via stevedore
 pkginfo==1.9.6
     # via twine
-platformdirs==3.11.0
-    # via
-    #   -c requirements/common_constraints.txt
-    #   pylint
+platformdirs==4.1.0
+    # via pylint
 pycodestyle==2.11.1
     # via -r requirements/quality.in
 pycparser==2.21
