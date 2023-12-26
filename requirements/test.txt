@@ -63,7 +63,7 @@ code-annotations==1.5.0
     #   -r requirements/base.txt
     #   -r requirements/test.in
     #   edx-toggles
-coverage[toml]==7.3.3
+coverage[toml]==7.3.4
     # via
     #   coverage
     #   pytest-cov
@@ -192,7 +192,7 @@ prompt-toolkit==3.0.43
     # via
     #   -r requirements/base.txt
     #   click-repl
-psutil==5.9.6
+psutil==5.9.7
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
