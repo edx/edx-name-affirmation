@@ -130,17 +130,17 @@ importlib-metadata==7.0.1
     # via sphinx
 inflection==0.5.1
     # via drf-yasg
-jinja2==3.1.2
+jinja2==3.1.3
     # via
     #   code-annotations
     #   sphinx
 jsonfield==3.1.0
     # via edx-celeryutils
-kombu==5.3.4
+kombu==5.3.5
     # via celery
 markupsafe==2.1.3
     # via jinja2
-newrelic==9.4.0
+newrelic==9.5.0
     # via edx-django-utils
 nh3==0.2.15
     # via readme-renderer
