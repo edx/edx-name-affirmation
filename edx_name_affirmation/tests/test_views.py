@@ -3,7 +3,7 @@ All tests for edx_name_affirmation views
 """
 import json
 
-import ddt
+import ddt  # pylint: disable=import-error
 
 from django.contrib.auth import get_user_model
 from django.core.cache import cache

@@ -1,4 +1,4 @@
-# pylint: disable=logging-format-interpolation, unused-argument
+# pylint: disable=logging-format-interpolation, unused-argument,import-error
 """
 Name affirmation celery tasks
 """

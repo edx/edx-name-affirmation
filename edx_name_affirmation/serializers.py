@@ -2,7 +2,7 @@
 
 import re
 
-from rest_framework import serializers
+from rest_framework import serializers      # pylint: disable=import-error
 
 from django.contrib.auth import get_user_model
 

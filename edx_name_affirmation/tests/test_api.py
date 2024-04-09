@@ -2,7 +2,7 @@
 Tests for the `edx_name_affirmation` Python API.
 """
 
-import ddt
+import ddt  # pylint: disable=import-error
 
 from django.contrib.auth import get_user_model
 from django.core.cache import cache

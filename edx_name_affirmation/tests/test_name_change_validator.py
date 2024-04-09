@@ -3,7 +3,7 @@ Tests for name change validator
 """
 
 
-import ddt
+import ddt  # pylint: disable=import-error
 
 from django.test import TestCase
 
