@@ -39,5 +39,5 @@ jobs:
         if: matrix.toxenv == 'django42'
         uses: codecov/codecov-action@v3
         with:
-          flags: unittests
+          file: ./coverage.xml
           fail_ci_if_error: true
