@@ -13,6 +13,9 @@ Change Log
 
 Unreleased
 ~~~~~~~~~~
+[2.4.0] - 2023-07-28
+~~~~~~~~~~~~~~~~~~~~
+* Added python3.11 support. Dropped django32 support.
 
 [2.3.6] - 2023-07-28
 ~~~~~~~~~~~~~~~~~~~~
