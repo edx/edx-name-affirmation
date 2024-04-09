@@ -1,4 +1,3 @@
-# pylint: disable=import-error
 """
 Tests for Name Affirmation tasks
 """

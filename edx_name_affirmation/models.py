@@ -1,4 +1,3 @@
-# pylint: disable=import-error
 """
 Database models for edx_name_affirmation.
 """
