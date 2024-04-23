@@ -9,7 +9,9 @@ alabaster==0.7.13
 amqp==5.2.0
     # via kombu
 asgiref==3.8.1
-    # via django
+    # via
+    #   django
+    #   django-simple-history
 babel==2.14.0
     # via sphinx
 backports-zoneinfo[tzdata]==0.2.1 ; python_version < "3.9"
@@ -21,7 +23,7 @@ backports-zoneinfo[tzdata]==0.2.1 ; python_version < "3.9"
     #   kombu
 billiard==4.2.0
     # via celery
-celery==5.4.0
+celery==5.3.6
     # via
     #   -c requirements/constraints.txt
     #   edx-celeryutils
@@ -74,10 +76,8 @@ django-model-utils==4.5.0
     # via
     #   -r requirements/base.in
     #   edx-celeryutils
-django-simple-history==3.1.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.in
+django-simple-history==3.5.0
+    # via -r requirements/base.in
 django-waffle==4.1.0
     # via
     #   edx-django-utils

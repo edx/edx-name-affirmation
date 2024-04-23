@@ -12,6 +12,7 @@ asgiref==3.8.1
     # via
     #   -r requirements/base.txt
     #   django
+    #   django-simple-history
 backports-zoneinfo[tzdata]==0.2.1 ; python_version < "3.9"
     # via
     #   -c requirements/constraints.txt
@@ -24,7 +25,7 @@ billiard==4.2.0
     # via
     #   -r requirements/base.txt
     #   celery
-celery==5.4.0
+celery==5.3.6
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
@@ -98,10 +99,8 @@ django-model-utils==4.5.0
     # via
     #   -r requirements/base.txt
     #   edx-celeryutils
-django-simple-history==3.1.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.txt
+django-simple-history==3.5.0
+    # via -r requirements/base.txt
 django-waffle==4.1.0
     # via
     #   -r requirements/base.txt
