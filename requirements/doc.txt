@@ -12,24 +12,21 @@ asgiref==3.8.1
     # via django
 babel==2.14.0
     # via sphinx
-backports-zoneinfo[tzdata]==0.2.1
+backports-zoneinfo[tzdata]==0.2.1 ; python_version < "3.9"
     # via
+    #   -c requirements/constraints.txt
     #   celery
     #   django
     #   djangorestframework
     #   kombu
 billiard==4.2.0
     # via celery
-celery==5.3.6
+celery==5.4.0
     # via
     #   -c requirements/constraints.txt
     #   edx-celeryutils
 certifi==2024.2.2
     # via requests
-cffi==1.16.0
-    # via
-    #   cryptography
-    #   pynacl
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
@@ -118,7 +115,7 @@ edx-django-utils==5.12.0
     #   edx-toggles
 edx-drf-extensions==10.3.0
     # via -r requirements/base.in
-edx-opaque-keys==2.5.1
+edx-opaque-keys==2.8.0
     # via edx-drf-extensions
 edx-sphinx-theme==3.1.0
     # via -r requirements/doc.in
@@ -144,7 +141,7 @@ kombu==5.3.7
     # via celery
 markupsafe==2.1.5
     # via jinja2
-newrelic==9.8.0
+newrelic==9.9.0
     # via edx-django-utils
 nh3==0.2.17
     # via readme-renderer
@@ -160,8 +157,6 @@ prompt-toolkit==3.0.43
     # via click-repl
 psutil==5.9.8
     # via edx-django-utils
-pycparser==2.22
-    # via cffi
 pygments==2.17.2
     # via
     #   doc8
