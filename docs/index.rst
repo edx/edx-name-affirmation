@@ -11,7 +11,6 @@ Welcome to edx-name-affirmation's documentation!
    :caption: Contents:
 
 
-
 Indices and tables
 ==================
 
