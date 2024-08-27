@@ -149,7 +149,7 @@ edx-toggles==5.2.0
     # via -r requirements/base.txt
 exceptiongroup==1.2.2
     # via pytest
-idna==3.7
+idna==3.8
     # via
     #   -r requirements/base.txt
     #   requests
@@ -185,7 +185,7 @@ packaging==24.1
     #   -r requirements/base.txt
     #   drf-yasg
     #   pytest
-pbr==6.0.0
+pbr==6.1.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -257,7 +257,7 @@ sqlparse==0.5.1
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.2.0
+stevedore==5.3.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
