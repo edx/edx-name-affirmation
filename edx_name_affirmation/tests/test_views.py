@@ -114,6 +114,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'verification_attempt_id': self.ATTEMPT_ID,
+            'verification_attempt_status': None,
         }
         response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
@@ -136,7 +137,9 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'proctored_exam_attempt_id': self.ATTEMPT_ID,
+            'verification_attempt_status': None,
             'status': VerifiedNameStatus.APPROVED.value,
+
         }
         response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
@@ -156,6 +159,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'verification_attempt_id': self.ATTEMPT_ID,
+            'verification_attempt_status': None,
             'status': VerifiedNameStatus.APPROVED.value,
         }
         response = self.client.post(
@@ -171,6 +175,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': verified_name,
             'verification_attempt_id': self.ATTEMPT_ID,
+            'verification_attempt_status': None,
             'status': VerifiedNameStatus.SUBMITTED.value,
         }
         response = self.client.post(
@@ -185,6 +190,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'verification_attempt_id': 'xxyz',
+            'verification_attempt_status': None,
             'status': VerifiedNameStatus.APPROVED.value,
         }
         response = self.client.post(
@@ -357,6 +363,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'verified_name': verified_name_obj.verified_name,
             'profile_name': verified_name_obj.profile_name,
             'verification_attempt_id': verified_name_obj.verification_attempt_id,
+            'verification_attempt_status': None,
             'proctored_exam_attempt_id': verified_name_obj.proctored_exam_attempt_id,
             'status': verified_name_obj.status,
             'use_verified_name_for_certs': use_verified_name_for_certs,

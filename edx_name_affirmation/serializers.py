@@ -19,8 +19,24 @@ class VerifiedNameSerializer(serializers.ModelSerializer):
     verified_name = serializers.CharField(required=True)
     profile_name = serializers.CharField(required=True)
     verification_attempt_id = serializers.IntegerField(required=False, allow_null=True)
+    verification_attempt_status = serializers.SerializerMethodField('get_verification_attempt_status')
     proctored_exam_attempt_id = serializers.IntegerField(required=False, allow_null=True)
     status = serializers.CharField(required=False, allow_null=True)
+
+    def get_verification_attempt_status(self, obj):
+        try:
+            from lms.djangoapps.verify_student.services import IDVerificationService # pylint: disable=import-error,import-outside-toplevel
+        except ImportError:
+            return None
+
+        idv_attempt_id = obj.verification_attempt_id
+
+        if not idv_attempt_id:
+            return None
+
+        verification = IDVerificationService.get_verification_details_by_id(idv_attempt_id)
+
+        return verification.status if verification else None
 
     class Meta:
         """
@@ -30,7 +46,7 @@ class VerifiedNameSerializer(serializers.ModelSerializer):
 
         fields = (
             "id", "created", "username", "verified_name", "profile_name", "verification_attempt_id",
-            "proctored_exam_attempt_id", "status"
+            "verification_attempt_status", "proctored_exam_attempt_id", "status"
         )
 
     def validate_verified_name(self, verified_name):
