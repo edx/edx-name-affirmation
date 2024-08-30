@@ -8,7 +8,6 @@ import ddt
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.urls import reverse
-from functools import partial
 
 from edx_name_affirmation.api import (
     create_verified_name,
@@ -38,7 +37,6 @@ class NameAffirmationViewsTestCase(LoggedInTestCase):
         # Create fresh configs with default values
         VerifiedNameConfig.objects.create(user=self.user)
         VerifiedNameConfig.objects.create(user=self.other_user)
-        self.json_post = partial(self.client.post, content_type="application/json")
 
     def tearDown(self):
         super().tearDown()
@@ -116,9 +114,8 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'verification_attempt_id': self.ATTEMPT_ID,
-            'verification_attempt_status': None,
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
             verified_name_data
         )
@@ -139,13 +136,11 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'proctored_exam_attempt_id': self.ATTEMPT_ID,
-            'verification_attempt_status': None,
             'status': VerifiedNameStatus.APPROVED.value,
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
-            verified_name_data,
-            content_type='json'
+            verified_name_data
         )
         self.assertEqual(response.status_code, 200)
 
@@ -161,10 +156,9 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'verification_attempt_id': self.ATTEMPT_ID,
-            'verification_attempt_status': None,
             'status': VerifiedNameStatus.APPROVED.value,
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
             verified_name_data
         )
@@ -177,10 +171,9 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': verified_name,
             'verification_attempt_id': self.ATTEMPT_ID,
-            'verification_attempt_status': None,
             'status': VerifiedNameStatus.SUBMITTED.value,
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
             verified_name_data
         )
@@ -192,10 +185,9 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'profile_name': self.PROFILE_NAME,
             'verified_name': self.VERIFIED_NAME,
             'verification_attempt_id': 'xxyz',
-            'verification_attempt_status': None,
             'status': VerifiedNameStatus.APPROVED.value,
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
             verified_name_data
         )
@@ -209,7 +201,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'verification_attempt_id': self.ATTEMPT_ID,
             'proctored_exam_attempt_id': self.ATTEMPT_ID
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
             verified_name_data
         )
@@ -465,6 +457,7 @@ class VerifiedNameHistoryViewTests(NameAffirmationViewsTestCase):
                 'verified_name': verified_name_obj.verified_name,
                 'profile_name': verified_name_obj.profile_name,
                 'verification_attempt_id': verified_name_obj.verification_attempt_id,
+                'verification_attempt_status': None,
                 'proctored_exam_attempt_id': verified_name_obj.proctored_exam_attempt_id,
                 'status': verified_name_obj.status
             }
@@ -483,7 +476,7 @@ class VerifiedNameConfigViewTests(NameAffirmationViewsTestCase):
             'username': self.user.username,
             'use_verified_name_for_certs': True
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name_config'),
             config_data
         )
@@ -499,11 +492,11 @@ class VerifiedNameConfigViewTests(NameAffirmationViewsTestCase):
         }
         config_data_missing_field = {'username': self.user.username}
 
-        first_response = self.json_post(
+        first_response = self.client.post(
             reverse('edx_name_affirmation:verified_name_config'),
             initial_config_data
         )
-        second_response = self.json_post(
+        second_response = self.client.post(
             reverse('edx_name_affirmation:verified_name_config'),
             config_data_missing_field
         )
@@ -523,7 +516,7 @@ class VerifiedNameConfigViewTests(NameAffirmationViewsTestCase):
             'username': self.other_user.username,
             'use_verified_name_for_certs': True
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name_config'),
             config_data
         )
@@ -537,7 +530,7 @@ class VerifiedNameConfigViewTests(NameAffirmationViewsTestCase):
             'username': self.other_user.username,
             'use_verified_name_for_certs': True
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name_config'),
             config_data
         )
@@ -548,7 +541,7 @@ class VerifiedNameConfigViewTests(NameAffirmationViewsTestCase):
             'username': self.user.username,
             'use_verified_name_for_certs': 'not a boolean'
         }
-        response = self.json_post(
+        response = self.client.post(
             reverse('edx_name_affirmation:verified_name_config'),
             config_data
         )
