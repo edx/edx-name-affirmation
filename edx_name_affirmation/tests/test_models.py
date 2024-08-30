@@ -8,6 +8,11 @@ from django.test import TestCase
 from edx_name_affirmation.models import VerifiedName
 from edx_name_affirmation.statuses import VerifiedNameStatus
 
+try:
+    from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
+except ImportError:
+    pass
+
 User = get_user_model()
 
 

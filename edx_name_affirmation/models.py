@@ -45,6 +45,20 @@ class VerifiedName(TimeStampedModel):
         db_table = 'nameaffirmation_verifiedname'
         verbose_name = 'verified name'
 
+    @property
+    def verification_attempt_status(self):
+        if not self.verification_attempt_id:
+            return None
+
+        try:
+            from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
+        except ImportError:
+            return None
+
+        verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
+
+        return verification.status if verification else None
+
 
 class VerifiedNameConfig(ConfigurationModel):
     """

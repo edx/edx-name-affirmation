@@ -139,7 +139,6 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'proctored_exam_attempt_id': self.ATTEMPT_ID,
             'verification_attempt_status': None,
             'status': VerifiedNameStatus.APPROVED.value,
-
         }
         response = self.client.post(
             reverse('edx_name_affirmation:verified_name'),
