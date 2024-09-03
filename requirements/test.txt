@@ -25,7 +25,7 @@ backports-zoneinfo[tzdata]==0.2.1
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-celeryutils
-certifi==2024.7.4
+certifi==2024.8.30
     # via
     #   -r requirements/base.txt
     #   requests
@@ -139,7 +139,7 @@ edx-django-utils==5.15.0
     #   django-config-models
     #   edx-drf-extensions
     #   edx-toggles
-edx-drf-extensions==10.3.0
+edx-drf-extensions==10.4.0
     # via -r requirements/base.txt
 edx-opaque-keys==2.10.0
     # via
@@ -149,7 +149,7 @@ edx-toggles==5.2.0
     # via -r requirements/base.txt
 exceptiongroup==1.2.2
     # via pytest
-idna==3.7
+idna==3.8
     # via
     #   -r requirements/base.txt
     #   requests
@@ -185,7 +185,7 @@ packaging==24.1
     #   -r requirements/base.txt
     #   drf-yasg
     #   pytest
-pbr==6.0.0
+pbr==6.1.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -222,7 +222,7 @@ pytest==8.3.2
     #   pytest-django
 pytest-cov==5.0.0
     # via -r requirements/test.in
-pytest-django==4.8.0
+pytest-django==4.9.0
     # via -r requirements/test.in
 python-dateutil==2.9.0.post0
     # via
@@ -257,7 +257,7 @@ sqlparse==0.5.1
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.2.0
+stevedore==5.3.0
     # via
     #   -r requirements/base.txt
     #   code-annotations

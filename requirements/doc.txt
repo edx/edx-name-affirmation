@@ -24,7 +24,7 @@ celery==5.4.0
     # via
     #   -c requirements/constraints.txt
     #   edx-celeryutils
-certifi==2024.7.4
+certifi==2024.8.30
     # via requests
 cffi==1.17.0
     # via
@@ -50,7 +50,7 @@ code-annotations==1.8.0
     # via edx-toggles
 cryptography==43.0.0
     # via pyjwt
-django==4.2.15
+django==4.2.16
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
@@ -96,7 +96,7 @@ djangorestframework==3.15.2
     #   edx-drf-extensions
 dnspython==2.6.1
     # via pymongo
-doc8==1.1.1
+doc8==1.1.2
     # via -r requirements/doc.in
 docutils==0.19
     # via
@@ -118,7 +118,7 @@ edx-django-utils==5.15.0
     #   django-config-models
     #   edx-drf-extensions
     #   edx-toggles
-edx-drf-extensions==10.3.0
+edx-drf-extensions==10.4.0
     # via -r requirements/base.in
 edx-opaque-keys==2.10.0
     # via edx-drf-extensions
@@ -126,11 +126,11 @@ edx-sphinx-theme==3.1.0
     # via -r requirements/doc.in
 edx-toggles==5.2.0
     # via -r requirements/base.in
-idna==3.7
+idna==3.8
     # via requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==8.3.0
+importlib-metadata==8.4.0
     # via sphinx
 inflection==0.5.1
     # via drf-yasg
@@ -152,7 +152,7 @@ packaging==24.1
     # via
     #   drf-yasg
     #   sphinx
-pbr==6.0.0
+pbr==6.1.0
     # via stevedore
 pockets==0.9.1
     # via sphinxcontrib-napoleon
@@ -225,7 +225,7 @@ sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
 sqlparse==0.5.1
     # via django
-stevedore==5.2.0
+stevedore==5.3.0
     # via
     #   code-annotations
     #   doc8
@@ -255,5 +255,5 @@ vine==5.1.0
     #   kombu
 wcwidth==0.2.13
     # via prompt-toolkit
-zipp==3.20.0
+zipp==3.20.1
     # via importlib-metadata
