@@ -11,6 +11,11 @@ from django.db import models
 
 from edx_name_affirmation.statuses import VerifiedNameStatus
 
+try:
+    from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
+except ImportError:
+    SoftwareSecurePhotoVerification = None
+
 User = get_user_model()
 
 
@@ -47,13 +52,12 @@ class VerifiedName(TimeStampedModel):
 
     @property
     def verification_attempt_status(self):
-        if not self.verification_attempt_id:
+        "Returns the status associated with its SoftwareSecurePhotoVerification with verification_attempt_id if any."
+
+        if not self.verification_attempt_id or not SoftwareSecurePhotoVerification:
             return None
 
-        try:
-            from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
-        except ImportError:
-            return None
+        # breakpoint()
 
         verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
 
