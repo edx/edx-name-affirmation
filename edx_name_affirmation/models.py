@@ -57,12 +57,12 @@ class VerifiedName(TimeStampedModel):
         if not self.verification_attempt_id or not SoftwareSecurePhotoVerification:
             return None
 
-        # breakpoint()
+        try:
+            verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
+            return verification.status if verification else None
 
-        verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
-
-        return verification.status if verification else None
-
+        except SoftwareSecurePhotoVerification.DoesNotExist:
+            return None
 
 class VerifiedNameConfig(ConfigurationModel):
     """
