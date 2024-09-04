@@ -32,24 +32,16 @@ class VerifiedNameModelTests(TestCase):
         )
         return super().setUp()
 
-    @patch('edx_name_affirmation.models.SoftwareSecurePhotoVerification')
-    def test_histories(self, sspv_mock):
+    def test_histories(self):
         """
         Test the model history is recording records as expected
         """
         idv_attempt_id = 34455
-        idv_attempt_status = 'submitted'
-
-        sspv_mock.objects.get = lambda id: \
-            _obj({'status': idv_attempt_status}) if id == idv_attempt_id \
-            else _obj({'status': None})
 
         verified_name_history = self.verified_name.history.all().order_by('history_date')
         assert len(verified_name_history) == 1
         self.verified_name.status = VerifiedNameStatus.APPROVED
         self.verified_name.verification_attempt_id = idv_attempt_id
-
-        assert self.verified_name.verification_attempt_status is idv_attempt_status
         self.verified_name.save()
         verified_name_history = self.verified_name.history.all().order_by('history_date')
         assert len(verified_name_history) == 2
@@ -61,3 +53,21 @@ class VerifiedNameModelTests(TestCase):
         second_history_record = verified_name_history[1]
         assert second_history_record.status == VerifiedNameStatus.APPROVED
         assert second_history_record.verification_attempt_id == idv_attempt_id
+
+    @patch('edx_name_affirmation.models.SoftwareSecurePhotoVerification')
+    def test_verification_status(self, sspv_mock):
+        """
+        Test the model history is recording records as expected
+        """
+        idv_attempt_id = 34455
+        idv_attempt_status = 'submitted'
+
+        sspv_mock.objects.get = lambda id: \
+            _obj({'status': idv_attempt_status}) if id == idv_attempt_id \
+            else _obj({'status': None})
+
+        self.verified_name.verification_attempt_id = 12345
+        assert self.verified_name.verification_attempt_status is None
+
+        self.verified_name.verification_attempt_id = idv_attempt_id
+        assert self.verified_name.verification_attempt_status is idv_attempt_status
