@@ -7,6 +7,7 @@ from model_utils.models import TimeStampedModel
 from simple_history.models import HistoricalRecords
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 from edx_name_affirmation.statuses import VerifiedNameStatus
@@ -61,8 +62,9 @@ class VerifiedName(TimeStampedModel):
             verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
             return verification.status if verification else None
 
-        except SoftwareSecurePhotoVerification.DoesNotExist:
+        except ObjectDoesNotExist:
             return None
+
 
 class VerifiedNameConfig(ConfigurationModel):
     """
