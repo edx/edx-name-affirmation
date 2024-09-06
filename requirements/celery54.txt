@@ -8,8 +8,8 @@ amqp==5.2.0
     # via kombu
 billiard==4.2.0
     # via celery
-celery==5.3.6
-    # via -r requirements/celery53.in
+celery==5.4.0
+    # via -r requirements/celery54.in
 click==8.1.7
     # via
     #   celery
