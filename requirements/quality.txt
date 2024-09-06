@@ -42,11 +42,9 @@ edx-lint==5.4.0
     # via -r requirements/quality.in
 idna==3.8
     # via requests
-importlib-metadata==6.11.0
+importlib-metadata==8.3.0
     # via
-    #   -c requirements/common_constraints.txt
     #   keyring
-    #   twine
 isort==5.13.2
     # via
     #   -r requirements/quality.in

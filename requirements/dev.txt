@@ -96,12 +96,10 @@ idna==3.8
     # via
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==6.11.0
+importlib-metadata==8.3.0
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/quality.txt
     #   keyring
-    #   twine
 isort==5.13.2
     # via
     #   -r requirements/quality.txt
@@ -313,10 +311,6 @@ typing-extensions==4.12.2
     #   pydantic
     #   pydantic-core
     #   typer
-tzdata==2024.1
-    # via
-    #   -r requirements/quality.txt
-    #   pydantic
 urllib3==2.2.2
     # via
     #   -r requirements/quality.txt
