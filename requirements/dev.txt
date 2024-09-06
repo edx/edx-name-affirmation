@@ -63,6 +63,8 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
+coverage==7.6.1
+    # via -r requirements/ci.txt
 diff-cover==9.1.1
     # via -r requirements/dev.in
 dill==0.3.8
@@ -96,10 +98,11 @@ idna==3.8
     # via
     #   -r requirements/quality.txt
     #   requests
-importlib-metadata==8.3.0
+importlib-metadata==8.4.0
     # via
     #   -r requirements/quality.txt
     #   keyring
+    #   twine
 isort==5.13.2
     # via
     #   -r requirements/quality.txt
@@ -311,6 +314,10 @@ typing-extensions==4.12.2
     #   pydantic
     #   pydantic-core
     #   typer
+tzdata==2024.1
+    # via
+    #   -r requirements/quality.txt
+    #   pydantic
 urllib3==2.2.2
     # via
     #   -r requirements/quality.txt

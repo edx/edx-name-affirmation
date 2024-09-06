@@ -14,7 +14,7 @@ babel==2.16.0
     # via sphinx
 billiard==4.2.0
     # via celery
-celery==5.4.0
+celery==5.3.6
     # via
     #   -c requirements/constraints.txt
     #   edx-celeryutils
@@ -171,6 +171,7 @@ python-dateutil==2.9.0.post0
 python-slugify==8.0.4
     # via code-annotations
 pytz==2024.1
+    # via drf-yasg
 pyyaml==6.0.2
     # via
     #   code-annotations
@@ -236,3 +237,6 @@ vine==5.1.0
     #   kombu
 wcwidth==0.2.13
     # via prompt-toolkit
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
