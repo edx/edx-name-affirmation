@@ -12,6 +12,7 @@ from edx_name_affirmation.statuses import VerifiedNameStatus
 
 User = get_user_model()
 
+
 class VerifiedNameModelTests(TestCase):
     """
     Test suite for the VerifiedName models
