@@ -60,7 +60,7 @@ class VerifiedName(TimeStampedModel):
 
         try:
             verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
-            return verification.status if verification else None
+            return verification.status
 
         except ObjectDoesNotExist:
             return None
