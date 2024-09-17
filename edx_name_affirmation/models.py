@@ -46,6 +46,15 @@ class VerifiedName(TimeStampedModel):
     )
     history = HistoricalRecords()
 
+    @classmethod
+    def retire_user(cls, user_id):
+        """
+        Retire user as part of GDPR pipeline
+        :param user_id: int
+        """
+        verified_names = cls.objects.filter(user_id=user_id)
+        verified_names.delete()
+
     class Meta:
         """ Meta class for this Django model """
         db_table = 'nameaffirmation_verifiedname'
