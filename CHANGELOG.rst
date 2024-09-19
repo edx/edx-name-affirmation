@@ -13,6 +13,7 @@ Change Log
 
 Unreleased
 ~~~~~~~~~~
+* Add platform verification id field to the VerifiedName model
 
 [2.4.0] - 2024-04-23
 ~~~~~~~~~~~~~~~~~~~~
