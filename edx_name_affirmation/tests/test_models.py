@@ -67,6 +67,15 @@ class VerifiedNameModelTests(TestCase):
         self.verified_name.verification_attempt_id = self.idv_attempt_id
         assert self.verified_name.verification_attempt_status is self.idv_attempt_status
 
+    def test_verification_id_exclusivity(self):
+        """
+        Test that only one verification ID can be set at a time
+        """
+        self.verified_name.verification_attempt_id = 1
+        self.verified_name.platform_verification_attempt_id = 1
+        with self.assertRaises(ValueError):
+            self.verified_name.save()
+
     # Helper methods
 
     def _obj(self, dictionary):
