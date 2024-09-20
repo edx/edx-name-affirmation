@@ -39,6 +39,9 @@ class VerifiedName(TimeStampedModel):
     verification_attempt_id = models.PositiveIntegerField(null=True, blank=True)
     proctored_exam_attempt_id = models.PositiveIntegerField(null=True, blank=True)
 
+    # Reference to a generic VerificationAttempt object in the platform
+    platform_verification_attempt_id = models.PositiveIntegerField(null=True, blank=True)
+
     status = models.CharField(
         max_length=32,
         choices=[(st.value, st.value) for st in VerifiedNameStatus],
@@ -73,6 +76,15 @@ class VerifiedName(TimeStampedModel):
 
         except ObjectDoesNotExist:
             return None
+
+    def save(self, *args, **kwargs):
+        """
+        Validate only one of `verification_attempt_id` or `platform_verification_attempt_id`
+        can be set.
+        """
+        if self.verification_attempt_id and self.platform_verification_attempt_id:
+            raise ValueError('Only one of `verification_attempt_id` or `platform_verification_attempt_id` can be set.')
+        super().save(*args, **kwargs)
 
 
 class VerifiedNameConfig(ConfigurationModel):
