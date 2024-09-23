@@ -14,8 +14,10 @@ from edx_name_affirmation.statuses import VerifiedNameStatus
 
 try:
     from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
+    from lms.djangoapps.verify_studnet.models import VerificationAttempt as PlatformVerificationAttempt
 except ImportError:
     SoftwareSecurePhotoVerification = None
+    PlatformVerificationAttempt = None
 
 User = get_user_model()
 
@@ -72,6 +74,21 @@ class VerifiedName(TimeStampedModel):
 
         try:
             verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
+            return verification.status
+
+        except ObjectDoesNotExist:
+            return None
+
+    @property
+    def platform_verification_attempt_status(self):
+        """
+        Returns the status associated with its platform VerificationAttempt
+        """
+        if not self.platform_verification_attempt_id or not PlatformVerificationAttempt:
+            return None
+
+        try:
+            verification = PlatformVerificationAttempt.objects.get(id=self.platform_verification_attempt_id)
             return verification.status
 
         except ObjectDoesNotExist:

@@ -20,7 +20,8 @@ log = logging.getLogger(__name__)
 
 def create_verified_name(
     user, verified_name, profile_name, verification_attempt_id=None,
-    proctored_exam_attempt_id=None, status=VerifiedNameStatus.PENDING,
+    proctored_exam_attempt_id=None, platform_verification_attempt_id=None,
+    status=VerifiedNameStatus.PENDING,
 ):
     """
     Create a new `VerifiedName` for the given user.
@@ -34,6 +35,8 @@ def create_verified_name(
           attempt.
         * `proctored_exam_attempt_id` (int): Optional reference to an external proctored exam
           attempt.
+        * `platform_verification_attempt_id` (int): Optional reference to a platform defined
+          verification attempt.
         * `is_verified` (bool): Optional, defaults False. This should determine whether the
           verified_name is valid for use with ID verification, exams, etc.
     """
@@ -44,15 +47,17 @@ def create_verified_name(
         raise VerifiedNameEmptyString('profile_name', user.id)
 
     # Only link to one attempt
-    if verification_attempt_id and proctored_exam_attempt_id:
+    if sum(map(bool, [proctored_exam_attempt_id, verification_attempt_id, platform_verification_attempt_id])) > 1:
         err_msg = (
-            'Attempted to create VerifiedName for user_id={user_id}, but two different '
+            'Attempted to create VerifiedName for user_id={user_id}, but at least two different '
             'external attempt IDs were given. Only one may be used. '
             'verification_attempt_id={verification_attempt_id}, '
             'proctored_exam_attempt_id={proctored_exam_attempt_id}, '
+            'platform_verification_attempt_id={platform_verification_attempt_id}, '
             'status={status}'.format(
                 user_id=user.id, verification_attempt_id=verification_attempt_id,
                 proctored_exam_attempt_id=proctored_exam_attempt_id, status=status,
+                platform_verification_attempt_id=platform_verification_attempt_id,
             )
         )
         raise VerifiedNameMultipleAttemptIds(err_msg)
@@ -63,6 +68,7 @@ def create_verified_name(
         profile_name=profile_name,
         verification_attempt_id=verification_attempt_id,
         proctored_exam_attempt_id=proctored_exam_attempt_id,
+        platform_verification_attempt_id=platform_verification_attempt_id,
         status=status,
     )
 
@@ -128,89 +134,44 @@ def get_verified_name_history(user):
     return VerifiedName.objects.filter(user=user).order_by('-created')
 
 
-def update_verification_attempt_id(user, verification_attempt_id):
-    """
-    Update the `verification_attempt_id` for the user's most recent VerifiedName.
-
-    If the VerifiedName already has a linked verification or proctored exam attempt, create a new
-    VerifiedName instead, using the same `verified_name` and `profile_name`.
-
-    This will raise an exception if the user does not have an existing VerifiedName.
-
-    Arguments:
-        * `user` (User object)
-        * `verification_attempt_id` (int)
-    """
-    verified_name_obj = get_verified_name(user)
-
-    if not verified_name_obj:
-        err_msg = (
-            'Attempted to update most recent VerifiedName for user_id={user_id} with '
-            'verification_attempt_id={verification_attempt_id}, but this user does not have '
-            'an existing VerifiedName.'.format(
-                user_id=user.id, verification_attempt_id=verification_attempt_id
-            )
-        )
-        raise VerifiedNameDoesNotExist(err_msg)
-
-    if verified_name_obj.verification_attempt_id or verified_name_obj.proctored_exam_attempt_id:
-        log_msg = (
-            'Attempted to update VerifiedName id={id} with '
-            'verification_attempt_id={verification_attempt_id}, but it already has a linked attempt. '
-            'Creating a new VerifiedName for user_id={user_id}'.format(
-                id=verified_name_obj.id, verification_attempt_id=verification_attempt_id, user_id=user.id,
-            )
-        )
-        log.warning(log_msg)
-
-        create_verified_name(
-            user=user,
-            verified_name=verified_name_obj.verified_name,
-            profile_name=verified_name_obj.profile_name,
-            verification_attempt_id=verification_attempt_id,
-        )
-
-    verified_name_obj.verification_attempt_id = verification_attempt_id
-    verified_name_obj.save()
-
-    log_msg = (
-        'Updated VerifiedName id={id} with verification_attempt_id={verification_attempt_id} '
-        'for user_id={user_id}'.format(
-            id=verified_name_obj.id, verification_attempt_id=verification_attempt_id, user_id=user.id,
-        )
-    )
-    log.info(log_msg)
-
-
 def update_verified_name_status(
-    user, status, verification_attempt_id=None, proctored_exam_attempt_id=None
+    user, status, verification_attempt_id=None, proctored_exam_attempt_id=None, platform_verification_attempt_id=None,
 ):
     """
-    Update the status of a VerifiedName using the linked ID verification or exam attempt ID. Only one
-    of these should be specified.
+    Update the status of a VerifiedName using the linked ID verification, exam attempt ID, or platform defined
+    verification attempt ID. Only one of these should be specified.
 
     Arguments:
         * user (User object)
         * status (Verified Name Status)
-        * verification_attempt_id (int)
-        * proctored_exam_attempt_id (int)
+        * verification_attempt_id (int): Optional reference to an external ID verification
+          attempt.
+        * proctored_exam_attempt_id (int): Optional reference to an external proctored exam
+          attempt.
+        * platform_verification_attempt_id (int): Optional reference to a platform defined
+          verification attempt.
     """
     filters = {'user': user}
 
-    if verification_attempt_id:
-        if proctored_exam_attempt_id:
-            err_msg = (
-                'Attempted to update the status for a VerifiedName, but two different '
-                'attempt IDs were given. verification_attempt_id={verification_attempt_id}, '
-                'proctored_exam_attempt_id={proctored_exam_attempt_id}'.format(
-                    verification_attempt_id=verification_attempt_id,
-                    proctored_exam_attempt_id=proctored_exam_attempt_id,
-                )
+    if sum(map(bool, [proctored_exam_attempt_id, verification_attempt_id, platform_verification_attempt_id])) > 1:
+        err_msg = (
+            'Attempted to update the status for a VerifiedName, but at least two different '
+            'attempt IDs were given. verification_attempt_id={verification_attempt_id}, '
+            'proctored_exam_attempt_id={proctored_exam_attempt_id},'
+            'platform_verification_attempt_id={platform_verification_attempt_id}'.format(
+                verification_attempt_id=verification_attempt_id,
+                proctored_exam_attempt_id=proctored_exam_attempt_id,
+                platform_verification_attempt_id=platform_verification_attempt_id,
             )
-            raise VerifiedNameMultipleAttemptIds(err_msg)
+        )
+        raise VerifiedNameMultipleAttemptIds(err_msg)
+
+    if verification_attempt_id:
         filters['verification_attempt_id'] = verification_attempt_id
     elif proctored_exam_attempt_id:
         filters['proctored_exam_attempt_id'] = proctored_exam_attempt_id
+    elif platform_verification_attempt_id:
+        filters['platform_verification_attempt_id'] = platform_verification_attempt_id
     else:
         err_msg = (
             'Attempted to update the status for a VerifiedName, but no '

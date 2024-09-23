@@ -67,6 +67,22 @@ class VerifiedNameModelTests(TestCase):
         self.verified_name.verification_attempt_id = self.idv_attempt_id
         assert self.verified_name.verification_attempt_status is self.idv_attempt_status
 
+    @patch('edx_name_affirmation.models.PlatformVerificationAttempt')
+    def test_platform_verification_attempt_status(self, platform_attempt_mock):
+        """
+        Test that the platform verification status is updated as expected
+        """
+
+        idv_attempt_id_notfound_status = None
+
+        platform_attempt_mock.objects.get = self._mocked_model_get
+
+        self.verified_name.platform_verification_attempt_id = self.idv_attempt_id_notfound
+        assert self.verified_name.platform_verification_attempt_status is idv_attempt_id_notfound_status
+
+        self.verified_name.platform_verification_attempt_id = self.idv_attempt_id
+        assert self.verified_name.platform_verification_attempt_status is self.idv_attempt_status
+
     def test_verification_id_exclusivity(self):
         """
         Test that only one verification ID can be set at a time
@@ -84,7 +100,9 @@ class VerifiedNameModelTests(TestCase):
         return type('obj', (object,), dictionary)
 
     def _mocked_model_get(self, id):  # pylint: disable=redefined-builtin
-        "Helper method to mock the behavior of SoftwareSecurePhotoVerification model. Used to mock below."
+        """
+        Helper method to mock the behavior of SoftwareSecurePhotoVerification and PlatformVerificationAttempt models.
+        """
         if id == self.idv_attempt_id_notfound:
             raise ObjectDoesNotExist
 

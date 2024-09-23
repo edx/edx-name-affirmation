@@ -329,7 +329,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
 
     def _create_verified_name(
         self, user, verification_attempt_id=None,
-        proctored_exam_attempt_id=None, status=VerifiedNameStatus.PENDING,
+        proctored_exam_attempt_id=None, platform_verification_attempt_id=None, status=VerifiedNameStatus.PENDING,
     ):
         """
         Create and return a verified name object.
@@ -340,6 +340,7 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             self.PROFILE_NAME,
             verification_attempt_id,
             proctored_exam_attempt_id,
+            platform_verification_attempt_id,
             status
         )
         return get_verified_name(user)
@@ -362,6 +363,8 @@ class VerifiedNameViewTests(NameAffirmationViewsTestCase):
             'proctored_exam_attempt_id': verified_name_obj.proctored_exam_attempt_id,
             'status': verified_name_obj.status,
             'use_verified_name_for_certs': use_verified_name_for_certs,
+            'platform_verification_attempt_id': verified_name_obj.platform_verification_attempt_id,
+            'platform_verification_attempt_status': None,
         }
 
 
@@ -479,7 +482,9 @@ class VerifiedNameHistoryViewTests(NameAffirmationViewsTestCase):
                 'verification_attempt_id': verified_name_obj.verification_attempt_id,
                 'verification_attempt_status': None,
                 'proctored_exam_attempt_id': verified_name_obj.proctored_exam_attempt_id,
-                'status': verified_name_obj.status
+                'status': verified_name_obj.status,
+                'platform_verification_attempt_id': verified_name_obj.platform_verification_attempt_id,
+                'platform_verification_attempt_status': None,
             }
             expected_response['results'].append(data)
 
