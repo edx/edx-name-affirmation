@@ -14,7 +14,7 @@ from edx_name_affirmation.statuses import VerifiedNameStatus
 
 try:
     from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
-    from lms.djangoapps.verify_studnet.models import VerificationAttempt as PlatformVerificationAttempt
+    from lms.djangoapps.verify_student.models import VerificationAttempt as PlatformVerificationAttempt
 except ImportError:
     SoftwareSecurePhotoVerification = None
     PlatformVerificationAttempt = None
