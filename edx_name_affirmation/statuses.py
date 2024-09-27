@@ -32,21 +32,6 @@ class VerifiedNameStatus(str, Enum):
     APPROVED = "approved"
     DENIED = "denied"
 
-    @classmethod
-    def trigger_state_change_from_idv(cls, idv_status):
-        """
-        Return the translated IDV status if it should trigger a state transition, otherwise return None
-        """
-        # mapping from an idv status (key) to it's associated verified name status (value). We only want to
-        # include idv statuses that would cause a status transition for a verified name
-        idv_state_transition_mapping = {
-            'created': cls.PENDING,
-            'submitted': cls.SUBMITTED,
-            'approved': cls.APPROVED,
-            'denied': cls.DENIED
-        }
-
-        return idv_state_transition_mapping.get(idv_status, None)
 
     @classmethod
     def trigger_state_change_from_proctoring(cls, proctoring_status):
