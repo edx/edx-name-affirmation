@@ -52,6 +52,7 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
         # for each attempt with no attempt id (either proctoring or idv), update attempt id
         updated_for_attempt_id = verified_names.filter(
             proctored_exam_attempt_id=None,
+            verification_attempt_id=None,
             platform_verification_attempt_id=None
         ).update(platform_verification_attempt_id=attempt_id)
 
@@ -66,6 +67,7 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
         # then for all matching attempt ids, update the status
         verified_name_qs = verified_names.filter(
             platform_verification_attempt_id=attempt_id,
+            verification_attempt_id=None,
             proctored_exam_attempt_id=None
         )
 
@@ -187,12 +189,12 @@ def proctoring_update_verified_name_task(
     bind=True, autoretry_for=(Exception,), default_retry_delay=DEFAULT_RETRY_SECONDS, max_retries=MAX_RETRIES,
 )
 @set_code_owner_attribute
-def delete_verified_name_task(self, platform_verification_attempt_id, idv_attempt_id, proctoring_attempt_id):
+def delete_verified_name_task(self, platform_verification_attempt_id, proctoring_attempt_id):
     """
     Celery task to delete a verified name based on an idv or proctoring attempt
     """
     # this case shouldn't happen, but should log as an error in case
-    if (idv_attempt_id, proctoring_attempt_id, platform_verification_attempt_id).count(None) != 1:
+    if (proctoring_attempt_id, platform_verification_attempt_id).count(None) != 1:
         log.error(
             'A maximum of one attempt id should be provided'
         )
@@ -204,22 +206,18 @@ def delete_verified_name_task(self, platform_verification_attempt_id, idv_attemp
         verified_names = VerifiedName.objects.filter(platform_verification_attempt_id=platform_verification_attempt_id)
         log_message['field_name'] = 'platform_verification_attempt_id'
         log_message['attempt_id'] = platform_verification_attempt_id
-    elif idv_attempt_id:
-        verified_names = VerifiedName.objects.filter(verification_attempt_id=idv_attempt_id)
-        log_message['field_name'] = 'verification_attempt_id'
-        log_message['attempt_id'] = idv_attempt_id
     else:
         verified_names = VerifiedName.objects.filter(proctored_exam_attempt_id=proctoring_attempt_id)
         log_message['field_name'] = 'proctored_exam_attempt_id'
         log_message['attempt_id'] = proctoring_attempt_id
 
     if verified_names:
-        log.info(
+        log.info(  # there's a bug in this log message
             'Deleting {num_names} VerifiedName(s) associated with {field_name}='
-            '{verification_attempt_id}'.format(
+            '{platform_verification_attempt_id}'.format(
                 num_names=len(verified_names),
                 field_name=log_message['field_name'],
-                verification_attempt_id=log_message['attempt_id'],
+                platform_verification_attempt_id=log_message['attempt_id'],
             )
         )
         verified_names.delete()
