@@ -32,7 +32,6 @@ class VerifiedNameStatus(str, Enum):
     APPROVED = "approved"
     DENIED = "denied"
 
-
     @classmethod
     def trigger_state_change_from_proctoring(cls, proctoring_status):
         """

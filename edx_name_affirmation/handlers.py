@@ -10,6 +10,7 @@ from django.dispatch.dispatcher import receiver
 
 from openedx_events.learning.signals import (
     IDV_ATTEMPT_APPROVED,
+    IDV_ATTEMPT_CREATED,
     IDV_ATTEMPT_DENIED,
     IDV_ATTEMPT_PENDING,
 )
@@ -42,9 +43,13 @@ def verified_name_approved(sender, instance, **kwargs):  # pylint: disable=unuse
 
 
 @receiver(IDV_ATTEMPT_APPROVED)
+@receiver(IDV_ATTEMPT_CREATED)
 @receiver(IDV_ATTEMPT_DENIED)
 @receiver(IDV_ATTEMPT_PENDING)
-def handle_idv_attempt_approved(sender, signal, **kwargs):
+def handle_idv_event(sender, signal, **kwargs):  # pylint: disable=unused-argument
+    """
+    Trigger update to verified names based on open edX IDV events.
+    """
     event_data = kwargs.get('idv_attempt')
     user = User.objects.get(id=event_data.user.id)
 
@@ -52,13 +57,15 @@ def handle_idv_attempt_approved(sender, signal, **kwargs):
     try:
         user_full_name = user.pending_name_change
     except AttributeError:
-        user_full_name = user.profile.name
+        user_full_name = event_data.user.pii.name
 
     status = None
     if signal == IDV_ATTEMPT_APPROVED:
         status = VerifiedNameStatus.APPROVED
-    elif signal == IDV_ATTEMPT_PENDING:
+    elif signal == IDV_ATTEMPT_CREATED:
         status = VerifiedNameStatus.PENDING
+    elif signal == IDV_ATTEMPT_PENDING:
+        status = VerifiedNameStatus.SUBMITTED
     elif signal == IDV_ATTEMPT_DENIED:
         status = VerifiedNameStatus.DENIED
     else:
@@ -77,6 +84,7 @@ def handle_idv_attempt_approved(sender, signal, **kwargs):
 
 def platform_verification_delete_handler(sender, instance, signal, **kwargs):  # pylint: disable=unused-argument
     """
+    Receiver for VerificationAttempt deletions
     """
     platform_verification_attempt_id = instance.id
     log.info(
