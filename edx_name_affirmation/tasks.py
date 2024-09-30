@@ -84,27 +84,28 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
                 status=name_affirmation_status
             )
         )
-    else:
-        # otherwise if there are no entries, we want to create one.
-        # TODO: There is an existing bug here where if a user has an existing verified name
-        # from proctoring and goes through idv again a new verified name is not created.
-        user = User.objects.get(id=user_id)
-        verified_name = VerifiedName.objects.create(
-            user=user,
-            verified_name=photo_id_name,
-            profile_name=full_name,
-            platform_verification_attempt_id=attempt_id,
-            status=name_affirmation_status,
+
+        if updated_for_attempt_id or verified_name_qs:
+            return
+
+    # if there are no entries to update, we want to create one.
+    user = User.objects.get(id=user_id)
+    verified_name = VerifiedName.objects.create(
+        user=user,
+        verified_name=photo_id_name,
+        profile_name=full_name,
+        platform_verification_attempt_id=attempt_id,
+        status=name_affirmation_status,
+    )
+    log.error(
+        'Created VerifiedName for user={user_id} to have status={status} '
+        'and platform_verification_attempt_id={attempt_id}, because no matching '
+        'attempt_id or verified_name were found.'.format(
+            user_id=user_id,
+            attempt_id=attempt_id,
+            status=verified_name.status
         )
-        log.error(
-            'Created VerifiedName for user={user_id} to have status={status} '
-            'and platform_verification_attempt_id={attempt_id}, because no matching '
-            'attempt_id or verified_name were found.'.format(
-                user_id=user_id,
-                attempt_id=attempt_id,
-                status=verified_name.status
-            )
-        )
+    )
 
 
 @shared_task(

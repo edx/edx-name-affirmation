@@ -218,9 +218,7 @@ class IDVSignalTests(SignalTestCase):
             status=VerifiedNameStatus.SUBMITTED,
         )
 
-        VerifiedName.objects.create(user=self.user, verified_name=self.verified_name, profile_name=self.profile_name)
         self._handle_idv_event(IDV_ATTEMPT_CREATED, self.idv_attempt_id)
-        # new name linked
         self.assertEqual(len(VerifiedName.objects.filter(
             status=VerifiedNameStatus.PENDING,
             platform_verification_attempt_id=self.idv_attempt_id,

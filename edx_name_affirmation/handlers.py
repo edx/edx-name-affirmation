@@ -69,6 +69,7 @@ def handle_idv_event(sender, signal, **kwargs):  # pylint: disable=unused-argume
     elif signal == IDV_ATTEMPT_DENIED:
         status = VerifiedNameStatus.DENIED
     else:
+        log.info(f'IDV_ATTEMPT {signal} signal not recognized')  # driven by receiver decorator so should never happen
         return
 
     log.info(f'IDV_ATTEMPT {status} signal triggering Celery task for user {user.id} '
