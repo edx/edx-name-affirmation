@@ -199,6 +199,38 @@ class IDVSignalTests(SignalTestCase):
         self.assertEqual(len(VerifiedName.objects.filter(platform_verification_attempt_id=self.idv_attempt_id)), 1)
         self.assertEqual(len(VerifiedName.objects.filter(status=VerifiedNameStatus.SUBMITTED)), 1)
 
+    def test_idv_does_not_update_old_verification_types(self):
+        """
+        The verfication_attempt_id field is no longer supported by edx-platform. These records should no be
+        updated by idv events.
+        """
+        VerifiedName.objects.create(
+            user=self.user,
+            verified_name=self.verified_name,
+            profile_name=self.profile_name,
+            verification_attempt_id=123,
+            status=VerifiedNameStatus.APPROVED,
+        )
+        VerifiedName.objects.create(
+            user=self.user,
+            verified_name=self.verified_name,
+            profile_name=self.profile_name,
+            verification_attempt_id=456,
+            status=VerifiedNameStatus.SUBMITTED,
+        )
+
+        VerifiedName.objects.create(user=self.user, verified_name=self.verified_name, profile_name=self.profile_name)
+        self._handle_idv_event(IDV_ATTEMPT_CREATED, self.idv_attempt_id)
+        # new name linked
+        self.assertEqual(len(VerifiedName.objects.filter(
+            status=VerifiedNameStatus.PENDING,
+            platform_verification_attempt_id=self.idv_attempt_id,
+        )), 1)
+
+        # old records remain untouched
+        self.assertEqual(len(VerifiedName.objects.filter(status=VerifiedNameStatus.SUBMITTED)), 1)
+        self.assertEqual(len(VerifiedName.objects.filter(status=VerifiedNameStatus.APPROVED)), 1)
+
     @ddt.data(
         (IDV_ATTEMPT_CREATED, VerifiedNameStatus.PENDING),
         (IDV_ATTEMPT_PENDING, VerifiedNameStatus.SUBMITTED),

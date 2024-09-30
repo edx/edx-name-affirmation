@@ -86,6 +86,8 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
         )
     else:
         # otherwise if there are no entries, we want to create one.
+        # TODO: There is an existing bug here where if a user has an existing verified name
+        # from proctoring and goes through idv again a new verified name is not created.
         user = User.objects.get(id=user_id)
         verified_name = VerifiedName.objects.create(
             user=user,
