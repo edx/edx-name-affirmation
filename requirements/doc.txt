@@ -10,6 +10,8 @@ amqp==5.2.0
     # via kombu
 asgiref==3.8.1
     # via django
+attrs==24.2.0
+    # via openedx-events
 babel==2.16.0
     # via sphinx
 billiard==4.2.0
@@ -61,6 +63,7 @@ django==4.2.16
     #   edx-drf-extensions
     #   edx-toggles
     #   jsonfield
+    #   openedx-events
 django-config-models==2.7.0
     # via -r requirements/base.in
 django-crum==0.7.9
@@ -104,6 +107,8 @@ drf-yasg==1.21.7
     # via edx-api-doc-tools
 edx-api-doc-tools==1.8.0
     # via -r requirements/base.in
+edx-ccx-keys==1.3.0
+    # via openedx-events
 edx-celeryutils==1.3.0
     # via -r requirements/base.in
 edx-django-utils==5.15.0
@@ -112,14 +117,20 @@ edx-django-utils==5.15.0
     #   django-config-models
     #   edx-drf-extensions
     #   edx-toggles
+    #   openedx-events
 edx-drf-extensions==10.4.0
     # via -r requirements/base.in
-edx-opaque-keys==2.11.0
-    # via edx-drf-extensions
+edx-opaque-keys[django]==2.11.0
+    # via
+    #   edx-ccx-keys
+    #   edx-drf-extensions
+    #   openedx-events
 edx-sphinx-theme==3.1.0
     # via -r requirements/doc.in
 edx-toggles==5.2.0
     # via -r requirements/base.in
+fastavro==1.9.7
+    # via openedx-events
 idna==3.8
     # via requests
 imagesize==1.4.1
@@ -140,6 +151,8 @@ newrelic==9.13.0
     # via edx-django-utils
 nh3==0.2.18
     # via readme-renderer
+openedx-events==9.14.1
+    # via -r requirements/base.in
 packaging==24.1
     # via
     #   drf-yasg
@@ -189,6 +202,7 @@ semantic-version==2.10.0
     # via edx-drf-extensions
 six==1.16.0
     # via
+    #   edx-ccx-keys
     #   edx-sphinx-theme
     #   pockets
     #   python-dateutil
