@@ -47,6 +47,7 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
         & Q(user__id=user_id)
         & Q(verified_name=photo_id_name)
     ).order_by('-created')
+    verified_names_updated = False
     if verified_names:
         # if there are VerifiedName objects, we want to update existing entries
         # for each attempt with no attempt id (either proctoring or idv), update attempt id
@@ -57,6 +58,7 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
         ).update(platform_verification_attempt_id=attempt_id)
 
         if updated_for_attempt_id:
+            verified_names_updated = True
             log.info(
                 'Updated VerifiedNames for user={user_id} to platform_verification_attempt_id={attempt_id}'.format(
                     user_id=user_id,
@@ -75,6 +77,7 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
         for verified_name_obj in verified_name_qs:
             verified_name_obj.status = name_affirmation_status
             verified_name_obj.save()
+            verified_names_updated = True
 
         log.info(
             'Updated VerifiedNames for user={user_id} with platform_verification_attempt_id={attempt_id} to '
@@ -85,27 +88,25 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
             )
         )
 
-        if updated_for_attempt_id or verified_name_qs:
-            return
-
     # if there are no entries to update, we want to create one.
-    user = User.objects.get(id=user_id)
-    verified_name = VerifiedName.objects.create(
-        user=user,
-        verified_name=photo_id_name,
-        profile_name=full_name,
-        platform_verification_attempt_id=attempt_id,
-        status=name_affirmation_status,
-    )
-    log.error(
-        'Created VerifiedName for user={user_id} to have status={status} '
-        'and platform_verification_attempt_id={attempt_id}, because no matching '
-        'attempt_id or verified_name were found.'.format(
-            user_id=user_id,
-            attempt_id=attempt_id,
-            status=verified_name.status
+    if not verified_names_updated:
+        user = User.objects.get(id=user_id)
+        verified_name = VerifiedName.objects.create(
+            user=user,
+            verified_name=photo_id_name,
+            profile_name=full_name,
+            platform_verification_attempt_id=attempt_id,
+            status=name_affirmation_status,
         )
-    )
+        log.error(
+            'Created VerifiedName for user={user_id} to have status={status} '
+            'and platform_verification_attempt_id={attempt_id}, because no matching '
+            'attempt_id or verified_name were found.'.format(
+                user_id=user_id,
+                attempt_id=attempt_id,
+                status=verified_name.status
+            )
+        )
 
 
 @shared_task(
