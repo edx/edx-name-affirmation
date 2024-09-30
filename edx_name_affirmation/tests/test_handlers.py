@@ -63,7 +63,7 @@ class PostSaveVerifiedNameTests(SignalTestCase):
                 user=self.user,
                 verified_name='Jonathan Doe',
                 profile_name=self.profile_name,
-                verification_attempt_id=self.idv_attempt_id
+                platform_verification_attempt_id=self.idv_attempt_id
             )
             verified_name_obj.status = status
             verified_name_obj.save()
