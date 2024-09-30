@@ -4,17 +4,16 @@ Tests for Name Affirmation signal handlers
 
 import ddt
 from mock import MagicMock, patch
-
-from django.contrib.auth import get_user_model
-from django.test import TestCase
-
 from openedx_events.learning.data import UserData, UserPersonalData, VerificationAttemptData
 from openedx_events.learning.signals import (
     IDV_ATTEMPT_APPROVED,
     IDV_ATTEMPT_CREATED,
     IDV_ATTEMPT_DENIED,
-    IDV_ATTEMPT_PENDING,
+    IDV_ATTEMPT_PENDING
 )
+
+from django.contrib.auth import get_user_model
+from django.test import TestCase
 
 from edx_name_affirmation.handlers import (
     handle_idv_event,

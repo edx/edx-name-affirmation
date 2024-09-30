@@ -4,16 +4,16 @@ Name Affirmation signal handlers
 
 import logging
 
-from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
-from django.dispatch.dispatcher import receiver
-
 from openedx_events.learning.signals import (
     IDV_ATTEMPT_APPROVED,
     IDV_ATTEMPT_CREATED,
     IDV_ATTEMPT_DENIED,
-    IDV_ATTEMPT_PENDING,
+    IDV_ATTEMPT_PENDING
 )
+
+from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
 
 from edx_name_affirmation.models import VerifiedName
 from edx_name_affirmation.signals import VERIFIED_NAME_APPROVED
