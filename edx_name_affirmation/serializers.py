@@ -19,8 +19,11 @@ class VerifiedNameSerializer(serializers.ModelSerializer):
     verified_name = serializers.CharField(required=True)
     profile_name = serializers.CharField(required=True)
     verification_attempt_id = serializers.IntegerField(required=False, allow_null=True)
+    verification_attempt_status = serializers.CharField(required=False, allow_null=True)
     proctored_exam_attempt_id = serializers.IntegerField(required=False, allow_null=True)
     status = serializers.CharField(required=False, allow_null=True)
+    platform_verification_attempt_id = serializers.IntegerField(required=False, allow_null=True)
+    platform_verification_attempt_status = serializers.CharField(required=False, allow_null=True)
 
     class Meta:
         """
@@ -30,7 +33,8 @@ class VerifiedNameSerializer(serializers.ModelSerializer):
 
         fields = (
             "id", "created", "username", "verified_name", "profile_name", "verification_attempt_id",
-            "proctored_exam_attempt_id", "status"
+            "verification_attempt_status", "proctored_exam_attempt_id", "platform_verification_attempt_id",
+            "platform_verification_attempt_status", "status"
         )
 
     def validate_verified_name(self, verified_name):

@@ -26,7 +26,7 @@ class EdxNameAffirmationConfig(AppConfig):
                 'receivers': [
                     {
                         'receiver_func_name': 'idv_attempt_handler',
-                        'signal_path': 'lms.djangoapps.verify_student.signals.idv_update_signal',
+                        'signal_path': 'lms.djangoapps.verify_student.signals.signals.idv_update_signal',
                     },
                     {
                         'receiver_func_name': 'idv_delete_handler',

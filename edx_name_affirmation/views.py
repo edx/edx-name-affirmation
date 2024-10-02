@@ -116,6 +116,7 @@ class VerifiedNameView(AuthenticatedAPIView):
             "profile_name": "Jon Doe"
             "verification_attempt_id": (Optional)
             "proctored_exam_attempt_id": (Optional)
+            "platform_verification_attempt_id": (Optional)
             "status": (Optional)
         }
         """
@@ -136,6 +137,7 @@ class VerifiedNameView(AuthenticatedAPIView):
                     request.data.get('profile_name'),
                     verification_attempt_id=request.data.get('verification_attempt_id', None),
                     proctored_exam_attempt_id=request.data.get('proctored_exam_attempt_id', None),
+                    platform_verification_attempt_id=request.data.get('platform_verification_attempt_id', None),
                     status=request.data.get('status', VerifiedNameStatus.PENDING)
                 )
                 response_status = http_status.HTTP_200_OK

@@ -31,7 +31,7 @@ docs: ## generate Sphinx HTML documentation, including API docs
 
 
 # Define PIP_COMPILE_OPTS=-v to get more information during make upgrade.
-PIP_COMPILE = pip-compile --rebuild --upgrade $(PIP_COMPILE_OPTS)
+PIP_COMPILE = pip-compile --rebuild $(PIP_COMPILE_OPTS)
 
 COMMON_CONSTRAINTS_TXT=requirements/common_constraints.txt
 .PHONY: $(COMMON_CONSTRAINTS_TXT)
@@ -41,8 +41,6 @@ $(COMMON_CONSTRAINTS_TXT):
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade: $(COMMON_CONSTRAINTS_TXT)
-	sed 's/django-simple-history==3.0.0//g' requirements/common_constraints.txt > requirements/common_constraints.tmp
-	mv requirements/common_constraints.tmp requirements/common_constraints.txt
 	pip install -qr requirements/pip-tools.txt
 	# Make sure to compile files after any other files they include!
 	# need to do this to remove django-simple-history from common constraint.
@@ -53,17 +51,10 @@ upgrade: $(COMMON_CONSTRAINTS_TXT)
 	$(PIP_COMPILE) -o requirements/quality.txt requirements/quality.in
 	$(PIP_COMPILE) -o requirements/ci.txt requirements/ci.in
 	$(PIP_COMPILE) -o requirements/dev.txt requirements/dev.in
-	$(PIP_COMPILE) -o requirements/celery53.txt requirements/celery53.in
+	$(PIP_COMPILE) -o requirements/celery54.txt requirements/celery54.in
 	# Let tox control the Django version for tests
 	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
 	mv requirements/test.tmp requirements/test.txt
-	sed -i.tmp '/^amqp==/d' requirements/test.txt
-	sed -i.tmp '/^anyjson==/d' requirements/test.txt
-	sed -i.tmp '/^billiard==/d' requirements/test.txt
-	sed -i.tmp '/^celery==/d' requirements/test.txt
-	sed -i.tmp '/^kombu==/d' requirements/test.txt
-	sed -i.tmp '/^vine==/d' requirements/test.txt
-	rm requirements/*.txt.tmp
 
 quality-python: ## Run python linters
 	tox -e quality

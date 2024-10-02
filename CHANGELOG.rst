@@ -13,6 +13,13 @@ Change Log
 
 Unreleased
 ~~~~~~~~~~
+* Add platform verification id field to the VerifiedName model
+* Integrate platform verification id into app
+
+[2.4.0] - 2024-04-23
+~~~~~~~~~~~~~~~~~~~~
+* Added python3.11 support.
+
 
 [2.3.6] - 2023-07-28
 ~~~~~~~~~~~~~~~~~~~~

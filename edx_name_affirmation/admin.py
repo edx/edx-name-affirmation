@@ -14,10 +14,13 @@ class VerifiedNameAdmin(admin.ModelAdmin):
     """
     list_display = (
       'id', 'user', 'verified_name', 'verification_attempt_id', 'proctored_exam_attempt_id',
-      'status', 'created', 'modified',
+      'platform_verification_attempt_id', 'status', 'created', 'modified',
     )
     readonly_fields = ('id',)
-    search_fields = ('user__username', 'verification_attempt_id', 'proctored_exam_attempt_id',)
+    search_fields = (
+        'user__username', 'verification_attempt_id', 'proctored_exam_attempt_id',
+        'platform_verification_attempt_id'
+    )
     raw_id_fields = ('user', )
 
 
