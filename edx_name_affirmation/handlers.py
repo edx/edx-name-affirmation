@@ -73,7 +73,7 @@ def handle_idv_event(sender, signal, **kwargs):  # pylint: disable=unused-argume
         return
 
     log.info(f'IDV_ATTEMPT {status} signal triggering Celery task for user {user.id} '
-             f'with photo_id_name {event_data.name}')
+             f'with name {event_data.name}')
     idv_update_verified_name_task.delay(
         event_data.attempt_id,
         user.id,

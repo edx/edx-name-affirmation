@@ -216,7 +216,7 @@ def delete_verified_name_task(self, platform_verification_attempt_id, proctoring
         log_message['attempt_id'] = proctoring_attempt_id
 
     if verified_names:
-        log.info(  # there's a bug in this log message
+        log.info(
             'Deleting {num_names} VerifiedName(s) associated with {field_name}='
             '{platform_verification_attempt_id}'.format(
                 num_names=len(verified_names),
