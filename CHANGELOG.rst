@@ -14,6 +14,10 @@ Change Log
 Unreleased
 ~~~~~~~~~~
 
+[3.0.1] - 2024-10-07
+~~~~~~~~~~~~~~~~~~~~
+* Upgrade django-simple-history and add migration to match the new version.
+
 [3.0.0] - 2024-09-30
 ~~~~~~~~~~~~~~~~~~~~
 * Add platform verification id field to the VerifiedName model
