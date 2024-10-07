@@ -15,5 +15,7 @@
 # the next major release, ensure the installed version is within boundaries.
 celery>=5.2.2,<6.0.0
 
+django-simple-history==3.4.0
+
 # Temporary to Support the python 3.11 Upgrade
 backports.zoneinfo;python_version<"3.9"  # Newer versions have zoneinfo available in the standard library
