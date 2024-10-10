@@ -62,7 +62,7 @@ quality-python: ## Run python linters
 	tox -e quality
 
 quality-rst: ## validate rst files
-	rstcheck -r --report-level warning .
+	rstcheck -r --report-level warning --ignore-directives=toctree --ignore-roles=ref .
 
 quality: quality-python quality-rst ## Run linters
 
