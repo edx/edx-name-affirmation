@@ -43,21 +43,24 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
     # want to grab all verified names for the same user and name combination, because
     # some of those records may already be associated with a different IDV attempt.
     verified_names = VerifiedName.objects.filter(
-        (Q(verification_attempt_id=attempt_id) | Q(verification_attempt_id__isnull=True))
+        (Q(platform_verification_attempt_id=attempt_id) | Q(platform_verification_attempt_id__isnull=True))
         & Q(user__id=user_id)
         & Q(verified_name=photo_id_name)
     ).order_by('-created')
+    verified_names_updated = False
     if verified_names:
         # if there are VerifiedName objects, we want to update existing entries
         # for each attempt with no attempt id (either proctoring or idv), update attempt id
         updated_for_attempt_id = verified_names.filter(
             proctored_exam_attempt_id=None,
-            verification_attempt_id=None
-        ).update(verification_attempt_id=attempt_id)
+            verification_attempt_id=None,
+            platform_verification_attempt_id=None
+        ).update(platform_verification_attempt_id=attempt_id)
 
         if updated_for_attempt_id:
+            verified_names_updated = True
             log.info(
-                'Updated VerifiedNames for user={user_id} to verification_attempt_id={attempt_id}'.format(
+                'Updated VerifiedNames for user={user_id} to platform_verification_attempt_id={attempt_id}'.format(
                     user_id=user_id,
                     attempt_id=attempt_id,
                 )
@@ -65,7 +68,8 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
 
         # then for all matching attempt ids, update the status
         verified_name_qs = verified_names.filter(
-            verification_attempt_id=attempt_id,
+            platform_verification_attempt_id=attempt_id,
+            verification_attempt_id=None,
             proctored_exam_attempt_id=None
         )
 
@@ -73,28 +77,30 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
         for verified_name_obj in verified_name_qs:
             verified_name_obj.status = name_affirmation_status
             verified_name_obj.save()
+            verified_names_updated = True
 
         log.info(
-            'Updated VerifiedNames for user={user_id} with verification_attempt_id={attempt_id} to '
+            'Updated VerifiedNames for user={user_id} with platform_verification_attempt_id={attempt_id} to '
             'have status={status}'.format(
                 user_id=user_id,
                 attempt_id=attempt_id,
                 status=name_affirmation_status
             )
         )
-    else:
-        # otherwise if there are no entries, we want to create one.
+
+    # if there are no entries to update, we want to create one.
+    if not verified_names_updated:
         user = User.objects.get(id=user_id)
         verified_name = VerifiedName.objects.create(
             user=user,
             verified_name=photo_id_name,
             profile_name=full_name,
-            verification_attempt_id=attempt_id,
+            platform_verification_attempt_id=attempt_id,
             status=name_affirmation_status,
         )
         log.error(
             'Created VerifiedName for user={user_id} to have status={status} '
-            'and verification_attempt_id={attempt_id}, because no matching '
+            'and platform_verification_attempt_id={attempt_id}, because no matching '
             'attempt_id or verified_name were found.'.format(
                 user_id=user_id,
                 attempt_id=attempt_id,
@@ -187,23 +193,23 @@ def proctoring_update_verified_name_task(
     bind=True, autoretry_for=(Exception,), default_retry_delay=DEFAULT_RETRY_SECONDS, max_retries=MAX_RETRIES,
 )
 @set_code_owner_attribute
-def delete_verified_name_task(self, idv_attempt_id, proctoring_attempt_id):
+def delete_verified_name_task(self, platform_verification_attempt_id, proctoring_attempt_id):
     """
     Celery task to delete a verified name based on an idv or proctoring attempt
     """
     # this case shouldn't happen, but should log as an error in case
-    if (idv_attempt_id and proctoring_attempt_id) or (not idv_attempt_id and not proctoring_attempt_id):
+    if (proctoring_attempt_id, platform_verification_attempt_id).count(None) != 1:
         log.error(
-            'A maximum of one attempt id should be provided for either a proctored exam attempt or IDV attempt.'
+            'A maximum of one attempt id should be provided'
         )
         return
 
     log_message = {'field_name': '', 'attempt_id': ''}
 
-    if idv_attempt_id:
-        verified_names = VerifiedName.objects.filter(verification_attempt_id=idv_attempt_id)
-        log_message['field_name'] = 'verification_attempt_id'
-        log_message['attempt_id'] = idv_attempt_id
+    if platform_verification_attempt_id:
+        verified_names = VerifiedName.objects.filter(platform_verification_attempt_id=platform_verification_attempt_id)
+        log_message['field_name'] = 'platform_verification_attempt_id'
+        log_message['attempt_id'] = platform_verification_attempt_id
     else:
         verified_names = VerifiedName.objects.filter(proctored_exam_attempt_id=proctoring_attempt_id)
         log_message['field_name'] = 'proctored_exam_attempt_id'
@@ -212,10 +218,10 @@ def delete_verified_name_task(self, idv_attempt_id, proctoring_attempt_id):
     if verified_names:
         log.info(
             'Deleting {num_names} VerifiedName(s) associated with {field_name}='
-            '{verification_attempt_id}'.format(
+            '{platform_verification_attempt_id}'.format(
                 num_names=len(verified_names),
                 field_name=log_message['field_name'],
-                verification_attempt_id=log_message['attempt_id'],
+                platform_verification_attempt_id=log_message['attempt_id'],
             )
         )
         verified_names.delete()

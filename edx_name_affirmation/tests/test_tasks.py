@@ -63,7 +63,7 @@ class TaskTests(TestCase):
         Assert that only relevant VerifiedNames are deleted for a given idv_attempt_id
         """
         # associated test object with an idv attempt
-        self.verified_name_obj.verification_attempt_id = self.idv_attempt_id
+        self.verified_name_obj.platform_verification_attempt_id = self.idv_attempt_id
         self.verified_name_obj.save()
 
         other_attempt_id = 123456
@@ -73,7 +73,7 @@ class TaskTests(TestCase):
             user=self.user,
             verified_name='Jonathan X Doe',
             profile_name='Jon D',
-            verification_attempt_id=self.idv_attempt_id
+            platform_verification_attempt_id=self.idv_attempt_id
         ).save()
 
         # create VerifiedName not associated with idv attempt
@@ -81,7 +81,7 @@ class TaskTests(TestCase):
             user=self.user,
             verified_name='Jonathan X Doe',
             profile_name='Jon D',
-            verification_attempt_id=other_attempt_id
+            platform_verification_attempt_id=other_attempt_id
         )
         other_verified_name_obj.save()
 
@@ -91,8 +91,8 @@ class TaskTests(TestCase):
         )
 
         # check that there is only VerifiedName object
-        self.assertEqual(len(VerifiedName.objects.filter(verification_attempt_id=self.idv_attempt_id)), 0)
-        self.assertEqual(len(VerifiedName.objects.filter(verification_attempt_id=other_attempt_id)), 1)
+        self.assertEqual(len(VerifiedName.objects.filter(platform_verification_attempt_id=self.idv_attempt_id)), 0)
+        self.assertEqual(len(VerifiedName.objects.filter(platform_verification_attempt_id=other_attempt_id)), 1)
 
     def test_proctoring_delete(self):
         """

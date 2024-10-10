@@ -4,6 +4,13 @@ Name Affirmation signal handlers
 
 import logging
 
+from openedx_events.learning.signals import (
+    IDV_ATTEMPT_APPROVED,
+    IDV_ATTEMPT_CREATED,
+    IDV_ATTEMPT_DENIED,
+    IDV_ATTEMPT_PENDING
+)
+
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
@@ -35,56 +42,60 @@ def verified_name_approved(sender, instance, **kwargs):  # pylint: disable=unuse
         )
 
 
-def idv_attempt_handler(attempt_id, user_id, status, photo_id_name, full_name, **kwargs):
+@receiver(IDV_ATTEMPT_APPROVED)
+@receiver(IDV_ATTEMPT_CREATED)
+@receiver(IDV_ATTEMPT_DENIED)
+@receiver(IDV_ATTEMPT_PENDING)
+def handle_idv_event(sender, signal, **kwargs):  # pylint: disable=unused-argument
     """
-    Receiver for IDV attempt updates
-
-    Args:
-        attempt_id(int): ID associated with the IDV attempt
-        user_id(int): ID associated with the IDV attempt's user
-        status(str): status in IDV language for the IDV attempt
-        photo_id_name(str): name to be used as verified name
-        full_name(str): user's pending name change or current profile name
+    Trigger update to verified names based on open edX IDV events.
     """
-    trigger_status = VerifiedNameStatus.trigger_state_change_from_idv(status)
+    event_data = kwargs.get('idv_attempt')
+    user = User.objects.get(id=event_data.user.id)
 
-    # only trigger celery task if status is relevant to name affirmation
-    if trigger_status:
-        log.info('VerifiedName: idv_attempt_handler triggering Celery task for user %(user_id)s '
-                 'with photo_id_name %(photo_id_name)s and status %(status)s',
-                 {
-                     'user_id': user_id,
-                     'photo_id_name': photo_id_name,
-                     'status': status
-                 }
-                 )
-        idv_update_verified_name_task.delay(attempt_id, user_id, trigger_status, photo_id_name, full_name)
+    # If the user has a pending name change, use that as the full name
+    try:
+        user_full_name = user.pending_name_change
+    except AttributeError:
+        user_full_name = event_data.user.pii.name
+
+    status = None
+    if signal == IDV_ATTEMPT_APPROVED:
+        status = VerifiedNameStatus.APPROVED
+    elif signal == IDV_ATTEMPT_CREATED:
+        status = VerifiedNameStatus.PENDING
+    elif signal == IDV_ATTEMPT_PENDING:
+        status = VerifiedNameStatus.SUBMITTED
+    elif signal == IDV_ATTEMPT_DENIED:
+        status = VerifiedNameStatus.DENIED
     else:
-        log.info('VerifiedName: idv_attempt_handler will not trigger Celery task for user %(user_id)s '
-                 'with photo_id_name %(photo_id_name)s because of status %(status)s',
-                 {
-                     'user_id': user_id,
-                     'photo_id_name': photo_id_name,
-                     'status': status
-                 }
-                 )
+        log.info(f'IDV_ATTEMPT {signal} signal not recognized')  # driven by receiver decorator so should never happen
+        return
+
+    log.info(f'IDV_ATTEMPT {status} signal triggering Celery task for user {user.id} '
+             f'with name {event_data.name}')
+    idv_update_verified_name_task.delay(
+        event_data.attempt_id,
+        user.id,
+        status,
+        event_data.name,
+        user_full_name,
+    )
 
 
-def idv_delete_handler(sender, instance, signal, **kwargs):  # pylint: disable=unused-argument
+def platform_verification_delete_handler(sender, instance, signal, **kwargs):  # pylint: disable=unused-argument
     """
-    Receiver for IDV attempt deletions
-
-    Args:
-        attempt_id(int): ID associated with the IDV attempt
+    Receiver for VerificationAttempt deletions
     """
-    idv_attempt_id = instance.id
+    platform_verification_attempt_id = instance.id
     log.info(
-        'VerifiedName: idv_delete_handler triggering Celery task for idv_attempt_id=%(idv_attempt_id)s',
+        'VerifiedName: platform_verification_delete_handler triggering Celery task for '
+        'platform_verification_attempt_id=%(platform_verification_attempt_id)s',
         {
-            'idv_attempt_id': idv_attempt_id,
+            'platform_verification_attempt_id': platform_verification_attempt_id,
         }
     )
-    delete_verified_name_task.delay(idv_attempt_id, None)
+    delete_verified_name_task.delay(platform_verification_attempt_id, None)
 
 
 def proctoring_attempt_handler(
