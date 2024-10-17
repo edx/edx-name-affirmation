@@ -34,6 +34,7 @@ def verified_name_approved(sender, instance, **kwargs):  # pylint: disable=unuse
     """
     Emit a signal when a verified name's status is updated to "approved".
     """
+    # PERSONA_DEBUG: send that signal to common/djangoapps/student/signals/receivers.py
     if instance.status == VerifiedNameStatus.APPROVED:
         VERIFIED_NAME_APPROVED.send(
           sender='name_affirmation',
