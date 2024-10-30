@@ -7,10 +7,11 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 import os
+from datetime import datetime
 
 project = 'edx-name-affirmation'
-copyright = '2024, edx-org'
-author = 'edx-org'
+copyright = f'{datetime.now().year}, edX LLC.' # pylint: disable=redefined-builtin
+author = 'edX LLC'
 release = '2.3.7'
 
 # -- General configuration ---------------------------------------------------
@@ -45,10 +46,10 @@ html_theme_options = {
         These works by
             <a
                 xmlns:cc="https://creativecommons.org/ns#"
-                href="https://openedx.org"
+                href="https://edx.org"
                 property="cc:attributionName"
                 rel="cc:attributionURL"
-            >Axim Collaborative</a>
+            >edX LLC</a>
         are licensed under a
             <a
                 rel="license"
