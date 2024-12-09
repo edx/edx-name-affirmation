@@ -4,7 +4,7 @@ edx-name-affirmation
 
 | |Build Status| |Coveralls|
 
-This library contains data model and business logic to store verified 
+This library contains data model and business logic to store verified
 personal information for learners of the edx-platform.
 This library is designed to be a pluggable library to the edx-platform.
 
@@ -130,7 +130,7 @@ How To Contribute
 
 Contributions are very welcome.
 
-Please read `How To Contribute <https://github.com/edx/edx-platform/blob/master/CONTRIBUTING.rst>`_ for details.
+Please read `Contribution guide <https://github.com/edx/edx-platform/blob/master/CONTRIBUTING.rst>`_ for details.
 
 Even though they were written with ``edx-platform`` in mind, the guidelines
 should be followed for Open edX code in general.

@@ -32,7 +32,7 @@ In addition to the honor code signature, if the learners who fits the following 
 
 - Has a downloadable course certificate
 - The learner changes more than 1 character in their profile name,
-  or they have already changed their profile name 3 times 
+  or they have already changed their profile name 3 times
 
 Furthermore, if the learner is going through Proctoring exams, the full name provided and verified as part of
 the proctoring process, will be saved as a verified name in this library.
