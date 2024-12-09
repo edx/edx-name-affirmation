@@ -36,7 +36,7 @@ dill==0.3.8
     # via pylint
 django==4.2.16
     # via
-    #   -c requirements/common_constraints.txt
+    #   -c /home/runner/work/edx-name-affirmation/edx-name-affirmation/requirements/common_constraints.txt
     #   -r requirements/quality.in
 docutils==0.21.2
     # via
