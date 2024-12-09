@@ -14,7 +14,7 @@ billiard==4.2.0
     # via celery
 celery==5.4.0
     # via
-    #   -c requirements/constraints.txt
+    #   -c /home/runner/work/edx-name-affirmation/edx-name-affirmation/requirements/constraints.txt
     #   edx-celeryutils
 certifi==2024.8.30
     # via requests
@@ -44,7 +44,7 @@ cryptography==43.0.1
     # via pyjwt
 django==4.2.16
     # via
-    #   -c requirements/common_constraints.txt
+    #   -c /home/runner/work/edx-name-affirmation/edx-name-affirmation/requirements/common_constraints.txt
     #   -r requirements/base.in
     #   django-config-models
     #   django-crum
@@ -72,7 +72,7 @@ django-model-utils==5.0.0
     #   edx-celeryutils
 django-simple-history==3.4.0
     # via
-    #   -c requirements/constraints.txt
+    #   -c /home/runner/work/edx-name-affirmation/edx-name-affirmation/requirements/constraints.txt
     #   -r requirements/base.in
 django-waffle==4.1.0
     # via
