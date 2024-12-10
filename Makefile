@@ -44,6 +44,10 @@ upgrade: $(COMMON_CONSTRAINTS_TXT)
 	sed 's/django-simple-history==3.0.0//g' requirements/common_constraints.txt > requirements/common_constraints.tmp
 	mv requirements/common_constraints.tmp requirements/common_constraints.txt
 	pip install -qr requirements/pip-tools.txt
+	pip-compile --rebuild --upgrade --allow-unsafe -o requirements/pip.txt requirements/pip.in
+	pip-compile --rebuild --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
+	pip install -qr requirements/pip.txt
+	pip install -qr requirements/pip-tools.txt
 	# Make sure to compile files after any other files they include!
 	# need to do this to remove django-simple-history from common constraint.
 	$(PIP_COMPILE) -o requirements/pip-tools.txt requirements/pip-tools.in

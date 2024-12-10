@@ -193,7 +193,7 @@ newrelic==9.13.0
     #   edx-django-utils
 openedx-events==9.14.1
     # via -r requirements/base.txt
-packaging==24.1
+packaging==24.2
     # via
     #   -r requirements/base.txt
     #   drf-yasg

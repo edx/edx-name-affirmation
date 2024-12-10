@@ -133,7 +133,7 @@ newrelic==9.13.0
     # via edx-django-utils
 openedx-events==9.14.1
     # via -r requirements/base.in
-packaging==24.1
+packaging==24.2
     # via drf-yasg
 pbr==6.1.0
     # via stevedore
