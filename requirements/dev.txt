@@ -21,7 +21,7 @@ backports-tarfile==1.2.0
     # via
     #   -r requirements/quality.txt
     #   jaraco-context
-build==1.2.1
+build==1.2.2.post1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -33,10 +33,6 @@ certifi==2024.8.30
     # via
     #   -r requirements/quality.txt
     #   requests
-cffi==1.17.1
-    # via
-    #   -r requirements/quality.txt
-    #   cryptography
 chardet==5.2.0
     # via
     #   -r requirements/ci.txt
@@ -69,10 +65,6 @@ colorama==0.4.6
     #   tox
 coverage==7.6.1
     # via -r requirements/ci.txt
-cryptography==43.0.1
-    # via
-    #   -r requirements/quality.txt
-    #   secretstorage
 diff-cover==9.1.1
     # via -r requirements/dev.in
 dill==0.3.8
@@ -90,6 +82,7 @@ django==4.2.16
     #   edx-i18n-tools
 docutils==0.21.2
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/quality.txt
     #   readme-renderer
     #   rstcheck-core
@@ -127,11 +120,6 @@ jaraco-functools==4.0.2
     # via
     #   -r requirements/quality.txt
     #   keyring
-jeepney==0.8.0
-    # via
-    #   -r requirements/quality.txt
-    #   keyring
-    #   secretstorage
 jinja2==3.1.4
     # via
     #   -r requirements/quality.txt
@@ -172,7 +160,7 @@ nh3==0.2.18
     # via
     #   -r requirements/quality.txt
     #   readme-renderer
-packaging==24.1
+packaging==24.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip-tools.txt
@@ -207,10 +195,6 @@ polib==1.2.0
     # via edx-i18n-tools
 pycodestyle==2.12.1
     # via -r requirements/quality.txt
-pycparser==2.22
-    # via
-    #   -r requirements/quality.txt
-    #   cffi
 pydantic==2.9.0
     # via
     #   -r requirements/quality.txt
@@ -251,7 +235,7 @@ pyproject-api==1.7.1
     # via
     #   -r requirements/ci.txt
     #   tox
-pyproject-hooks==1.1.0
+pyproject-hooks==1.2.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
@@ -293,10 +277,6 @@ rstcheck-core==1.2.1
     # via
     #   -r requirements/quality.txt
     #   rstcheck
-secretstorage==3.3.3
-    # via
-    #   -r requirements/quality.txt
-    #   keyring
 shellingham==1.5.4
     # via
     #   -r requirements/quality.txt
@@ -352,7 +332,7 @@ virtualenv==20.26.3
     # via
     #   -r requirements/ci.txt
     #   tox
-wheel==0.44.0
+wheel==0.45.1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
