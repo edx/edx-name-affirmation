@@ -1,6 +1,7 @@
 """
 Name Affirmation HTTP-based API endpoints
 """
+
 from edx_api_doc_tools import path_parameter, query_parameter, schema
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework import status as http_status
@@ -34,9 +35,11 @@ from edx_name_affirmation.statuses import VerifiedNameStatus
 
 
 class AuthenticatedAPIView(APIView):
+
     """
     Authenticate API View.
     """
+
     authentication_classes = (SessionAuthentication, JwtAuthentication)
     permission_classes = (IsAuthenticated,)
 
@@ -65,6 +68,7 @@ class VerifiedNameView(AuthenticatedAPIView):
         """
         Get most recent verified name for the request user or for the specified username
         For example: /edx_name_affirmation/v1/verified_name?username=jdoe
+
         Example response: {
             "username": "jdoe",
             "verified_name": "Jonathan Doe",
@@ -105,12 +109,14 @@ class VerifiedNameView(AuthenticatedAPIView):
     def post(self, request):
         """
         Creates a new VerifiedName.
+
         Expected POST data: {
             "username": "jdoe",
             "verified_name": "Jonathan Doe"
             "profile_name": "Jon Doe"
             "verification_attempt_id": (Optional)
             "proctored_exam_attempt_id": (Optional)
+            "platform_verification_attempt_id": (Optional)
             "status": (Optional)
         }
         """
@@ -131,6 +137,7 @@ class VerifiedNameView(AuthenticatedAPIView):
                     request.data.get('profile_name'),
                     verification_attempt_id=request.data.get('verification_attempt_id', None),
                     proctored_exam_attempt_id=request.data.get('proctored_exam_attempt_id', None),
+                    platform_verification_attempt_id=request.data.get('platform_verification_attempt_id', None),
                     status=request.data.get('status', VerifiedNameStatus.PENDING)
                 )
                 response_status = http_status.HTTP_200_OK
@@ -154,6 +161,7 @@ class VerifiedNameView(AuthenticatedAPIView):
     def patch(self, request):
         """
         Update verified name status
+
         Example PATCH data: {
                 "username": "jdoe",
                 "verification_attempt_id" OR "proctored_exam_attempt_id": 123,
@@ -274,6 +282,7 @@ class VerifiedNameConfigView(AuthenticatedAPIView):
 
     HTTP POST
     Creates a new VerifiedName.
+
     Example POST data: {
         "username": "jdoe",
         "use_verified_name_for_certs": True

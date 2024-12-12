@@ -14,6 +14,22 @@ Change Log
 Unreleased
 ~~~~~~~~~~
 
+[3.0.1] - 2024-10-07
+~~~~~~~~~~~~~~~~~~~~
+* Upgrade django-simple-history and add migration to match the new version.
+
+[3.0.0] - 2024-09-30
+~~~~~~~~~~~~~~~~~~~~
+* Add platform verification id field to the VerifiedName model
+* Integrate platform verification id into app
+* Added event handlers for new IDV events on the VerifiedName model
+* Removed event handlers for SoftwareSecurePhotoVerification updates. This is a breaking change.
+
+[2.4.0] - 2024-04-23
+~~~~~~~~~~~~~~~~~~~~
+* Added python3.11 support.
+
+
 [2.3.6] - 2023-07-28
 ~~~~~~~~~~~~~~~~~~~~
 * Upgrade django-simple-history. Added new migration. Fixed packages upgrade issues.

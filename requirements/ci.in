@@ -2,5 +2,5 @@
 
 -c constraints.txt
 
+coverage                  # Python code coverage
 tox                       # Virtualenv management for tests
-tox-battery               # Makes tox aware of requirements file changes

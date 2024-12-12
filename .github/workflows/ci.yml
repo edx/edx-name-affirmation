@@ -13,9 +13,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        python-version: ["3.8"]
+        python-version: ["3.11"]
         node-version: ["10"]
-        toxenv: [django32, django40, quality, pii_check, rst_validation]
+        toxenv: [django42, quality, pii_check, rst_validation]
 
     steps:
       - uses: actions/checkout@v1
@@ -36,8 +36,12 @@ jobs:
         run: tox
 
       - name: Run Coverage
-        if: matrix.toxenv == 'django32'
-        uses: codecov/codecov-action@v2
+        if: matrix.toxenv == 'django42'
+        uses: py-cov-action/python-coverage-comment-action@v3
         with:
-          flags: unittests
-          fail_ci_if_error: true
+          GITHUB_TOKEN: ${{ github.token }}
+          MINIMUM_GREEN: 95
+          MINIMUM_ORANGE: 84
+          ANNOTATE_MISSING_LINES: true
+          ANNOTATION_TYPE: error
+          uses: codecov/codecov-action@v2

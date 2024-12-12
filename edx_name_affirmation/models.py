@@ -7,9 +7,17 @@ from model_utils.models import TimeStampedModel
 from simple_history.models import HistoricalRecords
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 from edx_name_affirmation.statuses import VerifiedNameStatus
+
+try:
+    from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
+    from lms.djangoapps.verify_student.models import VerificationAttempt as PlatformVerificationAttempt
+except ImportError:
+    SoftwareSecurePhotoVerification = None
+    PlatformVerificationAttempt = None
 
 User = get_user_model()
 
@@ -33,6 +41,9 @@ class VerifiedName(TimeStampedModel):
     verification_attempt_id = models.PositiveIntegerField(null=True, blank=True)
     proctored_exam_attempt_id = models.PositiveIntegerField(null=True, blank=True)
 
+    # Reference to a generic VerificationAttempt object in the platform
+    platform_verification_attempt_id = models.PositiveIntegerField(null=True, blank=True)
+
     status = models.CharField(
         max_length=32,
         choices=[(st.value, st.value) for st in VerifiedNameStatus],
@@ -40,10 +51,57 @@ class VerifiedName(TimeStampedModel):
     )
     history = HistoricalRecords()
 
+    @classmethod
+    def retire_user(cls, user_id):
+        """
+        Retire user as part of GDPR pipeline
+        :param user_id: int
+        """
+        verified_names = cls.objects.filter(user_id=user_id)
+        verified_names.delete()
+
     class Meta:
         """ Meta class for this Django model """
         db_table = 'nameaffirmation_verifiedname'
         verbose_name = 'verified name'
+
+    @property
+    def verification_attempt_status(self):
+        "Returns the status associated with its SoftwareSecurePhotoVerification with verification_attempt_id if any."
+
+        if not self.verification_attempt_id or not SoftwareSecurePhotoVerification:
+            return None
+
+        try:
+            verification = SoftwareSecurePhotoVerification.objects.get(id=self.verification_attempt_id)
+            return verification.status
+
+        except ObjectDoesNotExist:
+            return None
+
+    @property
+    def platform_verification_attempt_status(self):
+        """
+        Returns the status associated with its platform VerificationAttempt
+        """
+        if not self.platform_verification_attempt_id or not PlatformVerificationAttempt:
+            return None
+
+        try:
+            verification = PlatformVerificationAttempt.objects.get(id=self.platform_verification_attempt_id)
+            return verification.status
+
+        except ObjectDoesNotExist:
+            return None
+
+    def save(self, *args, **kwargs):
+        """
+        Validate only one of `verification_attempt_id` or `platform_verification_attempt_id`
+        can be set.
+        """
+        if self.verification_attempt_id and self.platform_verification_attempt_id:
+            raise ValueError('Only one of `verification_attempt_id` or `platform_verification_attempt_id` can be set.')
+        super().save(*args, **kwargs)
 
 
 class VerifiedNameConfig(ConfigurationModel):

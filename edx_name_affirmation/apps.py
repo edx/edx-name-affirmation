@@ -25,13 +25,9 @@ class EdxNameAffirmationConfig(AppConfig):
                 'relative_path': 'handlers',
                 'receivers': [
                     {
-                        'receiver_func_name': 'idv_attempt_handler',
-                        'signal_path': 'lms.djangoapps.verify_student.signals.idv_update_signal',
-                    },
-                    {
-                        'receiver_func_name': 'idv_delete_handler',
+                        'receiver_func_name': 'platform_verification_delete_handler',
                         'signal_path': 'django.db.models.signals.post_delete',
-                        'sender_path': 'lms.djangoapps.verify_student.models.SoftwareSecurePhotoVerification',
+                        'sender_path': 'lms.djangoapps.verify_student.models.VerificationAttempt',
                     },
                     {
                         'receiver_func_name': 'proctoring_attempt_handler',

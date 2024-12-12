@@ -4,13 +4,20 @@ Tests for Name Affirmation signal handlers
 
 import ddt
 from mock import MagicMock, patch
+from openedx_events.learning.data import UserData, UserPersonalData, VerificationAttemptData
+from openedx_events.learning.signals import (
+    IDV_ATTEMPT_APPROVED,
+    IDV_ATTEMPT_CREATED,
+    IDV_ATTEMPT_DENIED,
+    IDV_ATTEMPT_PENDING
+)
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from edx_name_affirmation.handlers import (
-    idv_attempt_handler,
-    idv_delete_handler,
+    handle_idv_event,
+    platform_verification_delete_handler,
     proctoring_attempt_handler,
     proctoring_delete_handler
 )
@@ -56,7 +63,7 @@ class PostSaveVerifiedNameTests(SignalTestCase):
                 user=self.user,
                 verified_name='Jonathan Doe',
                 profile_name=self.profile_name,
-                verification_attempt_id=self.idv_attempt_id
+                platform_verification_attempt_id=self.idv_attempt_id
             )
             verified_name_obj.status = status
             verified_name_obj.save()
@@ -73,34 +80,49 @@ class IDVSignalTests(SignalTestCase):
     """
     Test for idv_attempt_handler
     """
+    def _handle_idv_event(self, idv_signal, attempt_id):
+        """ Call IDV handler with a mock event """
+        user_data = UserData(
+            id=self.user.id,
+            is_active=True,
+            pii=UserPersonalData(
+                username=self.user.username,
+                email=self.user.email,
+                name=self.profile_name,
+            )
+        )
+        event_data = VerificationAttemptData(
+            attempt_id=attempt_id,
+            user=user_data,
+            status='mock-platform-status',
+            name=self.verified_name,
+        )
+        event_kwargs = {
+            'idv_attempt': event_data
+        }
+        handle_idv_event(None, idv_signal, **event_kwargs)
 
     def test_idv_create_verified_name(self):
         """
         Test that if no verified name exists for the name or attempt id, create one
         """
-        idv_attempt_handler(
-            self.idv_attempt_id,
-            self.user.id,
-            'created',
-            self.verified_name,
-            self.profile_name
-        )
+        self._handle_idv_event(IDV_ATTEMPT_CREATED, self.idv_attempt_id)
 
         # make sure that verifiedname is created with relevant data
-        verified_name = VerifiedName.objects.get(verification_attempt_id=self.idv_attempt_id)
+        verified_name = VerifiedName.objects.get(platform_verification_attempt_id=self.idv_attempt_id)
         self.assertEqual(verified_name.status, VerifiedNameStatus.PENDING)
-        self.assertEqual(verified_name.verification_attempt_id, self.idv_attempt_id)
+        self.assertEqual(verified_name.platform_verification_attempt_id, self.idv_attempt_id)
         self.assertEqual(verified_name.verified_name, self.verified_name)
         self.assertEqual(verified_name.profile_name, self.profile_name)
 
     @ddt.data(
-        ('created', VerifiedNameStatus.PENDING),
-        ('submitted', VerifiedNameStatus.SUBMITTED),
-        ('approved', VerifiedNameStatus.APPROVED),
-        ('denied', VerifiedNameStatus.DENIED)
+        (IDV_ATTEMPT_CREATED, VerifiedNameStatus.PENDING),
+        (IDV_ATTEMPT_PENDING, VerifiedNameStatus.SUBMITTED),
+        (IDV_ATTEMPT_APPROVED, VerifiedNameStatus.APPROVED),
+        (IDV_ATTEMPT_DENIED, VerifiedNameStatus.DENIED)
     )
     @ddt.unpack
-    def test_idv_update_multiple_verified_names(self, idv_status, expected_status):
+    def test_idv_update_multiple_verified_names(self, idv_signal, expected_status):
         """
         If a VerifiedName(s) for a user and verified name exist, ensure that it is updated properly
         """
@@ -119,19 +141,13 @@ class IDVSignalTests(SignalTestCase):
             user=self.user,
             verified_name=self.verified_name,
             profile_name=self.profile_name,
-            verification_attempt_id=self.idv_attempt_id
+            platform_verification_attempt_id=self.idv_attempt_id
         )
 
-        idv_attempt_handler(
-            self.idv_attempt_id,
-            self.user.id,
-            idv_status,
-            self.verified_name,
-            self.profile_name
-        )
+        self._handle_idv_event(idv_signal, self.idv_attempt_id)
 
         # check that the attempt id and status have been updated for all three VerifiedNames
-        self.assertEqual(len(VerifiedName.objects.filter(verification_attempt_id=self.idv_attempt_id)), 3)
+        self.assertEqual(len(VerifiedName.objects.filter(platform_verification_attempt_id=self.idv_attempt_id)), 3)
         self.assertEqual(len(VerifiedName.objects.filter(status=expected_status)), 3)
 
     def test_idv_create_with_existing_verified_names(self):
@@ -144,23 +160,17 @@ class IDVSignalTests(SignalTestCase):
             user=self.user,
             verified_name=self.verified_name,
             profile_name=self.profile_name,
-            verification_attempt_id=previous_id,
+            platform_verification_attempt_id=previous_id,
             status='denied'
         )
 
         # create an IDV attempt with the same user and names as above, but change the attempt ID to a unique value
-        idv_attempt_handler(
-            self.idv_attempt_id,
-            self.user.id,
-            'submitted',
-            self.verified_name,
-            self.profile_name
-        )
+        self._handle_idv_event(IDV_ATTEMPT_PENDING, self.idv_attempt_id)
 
-        verified_name = VerifiedName.objects.get(verification_attempt_id=self.idv_attempt_id)
+        verified_name = VerifiedName.objects.get(platform_verification_attempt_id=self.idv_attempt_id)
         self.assertEqual(verified_name.status, VerifiedNameStatus.SUBMITTED)
 
-        previous_name = VerifiedName.objects.get(verification_attempt_id=previous_id)
+        previous_name = VerifiedName.objects.get(platform_verification_attempt_id=previous_id)
         self.assertEqual(previous_name.status, VerifiedNameStatus.DENIED)
 
     def test_idv_does_not_update_verified_name_by_proctoring(self):
@@ -181,27 +191,51 @@ class IDVSignalTests(SignalTestCase):
             profile_name=self.profile_name
         )
 
-        idv_attempt_handler(
-            self.idv_attempt_id,
-            self.user.id,
-            'submitted',
-            self.verified_name,
-            self.profile_name
-        )
+        self._handle_idv_event(IDV_ATTEMPT_PENDING, self.idv_attempt_id)
 
         # check that the attempt id and status have only been updated for the record that does not have a proctored
         # exam attempt id
-        self.assertEqual(len(VerifiedName.objects.filter(verification_attempt_id=self.idv_attempt_id)), 1)
+        self.assertEqual(len(VerifiedName.objects.filter(platform_verification_attempt_id=self.idv_attempt_id)), 1)
         self.assertEqual(len(VerifiedName.objects.filter(status=VerifiedNameStatus.SUBMITTED)), 1)
 
+    def test_idv_does_not_update_old_verification_types(self):
+        """
+        The verfication_attempt_id field is no longer supported by edx-platform. These records should no be
+        updated by idv events.
+        """
+        VerifiedName.objects.create(
+            user=self.user,
+            verified_name=self.verified_name,
+            profile_name=self.profile_name,
+            verification_attempt_id=123,
+            status=VerifiedNameStatus.APPROVED,
+        )
+        VerifiedName.objects.create(
+            user=self.user,
+            verified_name=self.verified_name,
+            profile_name=self.profile_name,
+            verification_attempt_id=456,
+            status=VerifiedNameStatus.SUBMITTED,
+        )
+
+        self._handle_idv_event(IDV_ATTEMPT_CREATED, self.idv_attempt_id)
+        self.assertEqual(len(VerifiedName.objects.filter(
+            status=VerifiedNameStatus.PENDING,
+            platform_verification_attempt_id=self.idv_attempt_id,
+        )), 1)
+
+        # old records remain untouched
+        self.assertEqual(len(VerifiedName.objects.filter(status=VerifiedNameStatus.SUBMITTED)), 1)
+        self.assertEqual(len(VerifiedName.objects.filter(status=VerifiedNameStatus.APPROVED)), 1)
+
     @ddt.data(
-        ('created', VerifiedNameStatus.PENDING),
-        ('submitted', VerifiedNameStatus.SUBMITTED),
-        ('approved', VerifiedNameStatus.APPROVED),
-        ('denied', VerifiedNameStatus.DENIED)
+        (IDV_ATTEMPT_CREATED, VerifiedNameStatus.PENDING),
+        (IDV_ATTEMPT_PENDING, VerifiedNameStatus.SUBMITTED),
+        (IDV_ATTEMPT_APPROVED, VerifiedNameStatus.APPROVED),
+        (IDV_ATTEMPT_DENIED, VerifiedNameStatus.DENIED)
     )
     @ddt.unpack
-    def test_idv_update_one_verified_name(self, idv_status, expected_status):
+    def test_idv_update_one_verified_name(self, idv_signal, expected_status):
         """
         If a VerifiedName(s) for a user and verified name exist, ensure that it is updated properly
         """
@@ -210,19 +244,13 @@ class IDVSignalTests(SignalTestCase):
                 user=self.user,
                 verified_name=self.verified_name,
                 profile_name=self.profile_name,
-                verification_attempt_id=self.idv_attempt_id
+                platform_verification_attempt_id=self.idv_attempt_id
             )
 
-            idv_attempt_handler(
-                self.idv_attempt_id,
-                self.user.id,
-                idv_status,
-                self.verified_name,
-                self.profile_name
-            )
+            self._handle_idv_event(idv_signal, self.idv_attempt_id)
 
             # check that the attempt id and status have been updated for all three VerifiedNames
-            self.assertEqual(len(VerifiedName.objects.filter(verification_attempt_id=self.idv_attempt_id)), 1)
+            self.assertEqual(len(VerifiedName.objects.filter(platform_verification_attempt_id=self.idv_attempt_id)), 1)
             self.assertEqual(len(VerifiedName.objects.filter(status=expected_status)), 1)
 
             # If the status is approved, ensure that the post_save signal is called
@@ -231,25 +259,6 @@ class IDVSignalTests(SignalTestCase):
             else:
                 mock_signal.assert_not_called()
 
-    @ddt.data(
-        'ready',
-        'must_retry',
-    )
-    @patch('edx_name_affirmation.tasks.idv_update_verified_name_task.delay')
-    def test_idv_non_trigger_status(self, status, mock_task):
-        """
-        Test that a celery task is not triggered if a non-relevant status is received
-        """
-        idv_attempt_handler(
-            self.idv_attempt_id,
-            self.user.id,
-            status,
-            self.verified_name,
-            self.profile_name
-        )
-
-        mock_task.assert_not_called()
-
     @patch('edx_name_affirmation.tasks.delete_verified_name_task.delay')
     def test_idv_delete_handler(self, mock_task):
         """
@@ -257,7 +266,7 @@ class IDVSignalTests(SignalTestCase):
         """
         mock_idv_object = MagicMock()
         mock_idv_object.id = 'abcdef'
-        idv_delete_handler(
+        platform_verification_delete_handler(
             {},
             mock_idv_object,
             '',
