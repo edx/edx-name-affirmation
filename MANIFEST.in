@@ -4,3 +4,4 @@ include CHANGELOG.rst
 graft edx_name_affirmation
 recursive-include requirements *.in *.txt
 global-exclude *.pyc
+include requirements/constraints.txt
