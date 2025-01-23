@@ -42,7 +42,7 @@ charset-normalizer==3.3.2
     # via
     #   -r requirements/quality.txt
     #   requests
-click==8.1.7
+click==8.1.8
     # via
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
