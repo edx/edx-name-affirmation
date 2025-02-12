@@ -21,7 +21,7 @@ backports-tarfile==1.2.0
     # via
     #   -r requirements/quality.txt
     #   jaraco-context
-build==1.2.1
+build==1.2.2.post1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -46,7 +46,7 @@ charset-normalizer==3.3.2
     # via
     #   -r requirements/quality.txt
     #   requests
-click==8.1.7
+click==8.1.8
     # via
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
@@ -69,7 +69,7 @@ colorama==0.4.6
     #   tox
 coverage==7.6.1
     # via -r requirements/ci.txt
-cryptography==43.0.1
+cryptography==44.0.0
     # via
     #   -r requirements/quality.txt
     #   secretstorage
@@ -90,6 +90,7 @@ django==4.2.16
     #   edx-i18n-tools
 docutils==0.21.2
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/quality.txt
     #   readme-renderer
     #   rstcheck-core
@@ -172,7 +173,7 @@ nh3==0.2.18
     # via
     #   -r requirements/quality.txt
     #   readme-renderer
-packaging==24.1
+packaging==24.2
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip-tools.txt
@@ -251,7 +252,7 @@ pyproject-api==1.7.1
     # via
     #   -r requirements/ci.txt
     #   tox
-pyproject-hooks==1.1.0
+pyproject-hooks==1.2.0
     # via
     #   -r requirements/pip-tools.txt
     #   build
@@ -345,6 +346,7 @@ tzdata==2024.1
     #   pydantic
 urllib3==2.2.2
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/quality.txt
     #   requests
     #   twine
@@ -352,7 +354,7 @@ virtualenv==20.26.3
     # via
     #   -r requirements/ci.txt
     #   tox
-wheel==0.44.0
+wheel==0.45.1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools

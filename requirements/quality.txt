@@ -20,7 +20,7 @@ cffi==1.17.1
     # via cryptography
 charset-normalizer==3.3.2
     # via requests
-click==8.1.7
+click==8.1.8
     # via
     #   click-log
     #   code-annotations
@@ -30,7 +30,7 @@ click-log==0.4.0
     # via edx-lint
 code-annotations==1.8.0
     # via edx-lint
-cryptography==43.0.1
+cryptography==44.0.0
     # via secretstorage
 dill==0.3.8
     # via pylint
@@ -40,6 +40,7 @@ django==4.2.16
     #   -r requirements/quality.in
 docutils==0.21.2
     # via
+    #   -c requirements/constraints.txt
     #   readme-renderer
     #   rstcheck-core
 edx-lint==5.4.0
@@ -167,6 +168,7 @@ tzdata==2024.1
     # via pydantic
 urllib3==2.2.2
     # via
+    #   -c requirements/common_constraints.txt
     #   requests
     #   twine
 zipp==3.20.1
