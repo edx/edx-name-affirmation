@@ -40,6 +40,7 @@ charset-normalizer==3.3.2
     #   requests
 click==8.1.8
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   celery
     #   click-didyoumean
@@ -195,6 +196,7 @@ openedx-events==9.14.1
     # via -r requirements/base.txt
 packaging==24.2
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   drf-yasg
     #   pytest

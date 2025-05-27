@@ -36,6 +36,7 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.8
     # via
+    #   -c requirements/constraints.txt
     #   celery
     #   click-didyoumean
     #   click-plugins
@@ -161,6 +162,7 @@ openedx-events==9.14.1
     # via -r requirements/base.in
 packaging==24.2
     # via
+    #   -c requirements/constraints.txt
     #   drf-yasg
     #   sphinx
 pbr==6.1.0
