@@ -15,7 +15,7 @@
 # the next major release, ensure the installed version is within boundaries.
 celery>=5.2.2,<6.0.0
 
-django-simple-history==3.4.0
+django-simple-history==3.8.0
 
 # docutils has conflicting version for the dependencies. Reference issue: https://github.com/edx/edx-name-affirmation/issues/231
 # issue to unpin
