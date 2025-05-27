@@ -26,6 +26,7 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.8
     # via
+    #   -c requirements/constraints.txt
     #   celery
     #   click-didyoumean
     #   click-plugins
@@ -49,6 +50,7 @@ django==4.2.16
     #   django-config-models
     #   django-crum
     #   django-model-utils
+    #   django-simple-history
     #   django-waffle
     #   djangorestframework
     #   drf-jwt
@@ -70,7 +72,7 @@ django-model-utils==5.0.0
     # via
     #   -r requirements/base.in
     #   edx-celeryutils
-django-simple-history==3.4.0
+django-simple-history==3.8.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.in
@@ -134,7 +136,9 @@ newrelic==9.13.0
 openedx-events==9.14.1
     # via -r requirements/base.in
 packaging==24.2
-    # via drf-yasg
+    # via
+    #   -c requirements/constraints.txt
+    #   drf-yasg
 pbr==6.1.0
     # via stevedore
 prompt-toolkit==3.0.47

@@ -40,6 +40,7 @@ charset-normalizer==3.3.2
     #   requests
 click==8.1.8
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   celery
     #   click-didyoumean
@@ -78,6 +79,7 @@ ddt==1.7.2
     #   django-config-models
     #   django-crum
     #   django-model-utils
+    #   django-simple-history
     #   django-waffle
     #   djangorestframework
     #   drf-jwt
@@ -100,7 +102,7 @@ django-model-utils==5.0.0
     # via
     #   -r requirements/base.txt
     #   edx-celeryutils
-django-simple-history==3.4.0
+django-simple-history==3.8.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
@@ -195,6 +197,7 @@ openedx-events==9.14.1
     # via -r requirements/base.txt
 packaging==24.2
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   drf-yasg
     #   pytest

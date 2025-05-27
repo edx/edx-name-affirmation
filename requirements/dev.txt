@@ -33,10 +33,6 @@ certifi==2024.8.30
     # via
     #   -r requirements/quality.txt
     #   requests
-cffi==1.17.1
-    # via
-    #   -r requirements/quality.txt
-    #   cryptography
 chardet==5.2.0
     # via
     #   -r requirements/ci.txt
@@ -48,6 +44,7 @@ charset-normalizer==3.3.2
     #   requests
 click==8.1.8
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
     #   click-log
@@ -69,10 +66,6 @@ colorama==0.4.6
     #   tox
 coverage==7.6.1
     # via -r requirements/ci.txt
-cryptography==44.0.0
-    # via
-    #   -r requirements/quality.txt
-    #   secretstorage
 diff-cover==9.1.1
     # via -r requirements/dev.in
 dill==0.3.8
@@ -128,11 +121,6 @@ jaraco-functools==4.0.2
     # via
     #   -r requirements/quality.txt
     #   keyring
-jeepney==0.8.0
-    # via
-    #   -r requirements/quality.txt
-    #   keyring
-    #   secretstorage
 jinja2==3.1.4
     # via
     #   -r requirements/quality.txt
@@ -175,6 +163,7 @@ nh3==0.2.18
     #   readme-renderer
 packaging==24.2
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/ci.txt
     #   -r requirements/pip-tools.txt
     #   build
@@ -208,10 +197,6 @@ polib==1.2.0
     # via edx-i18n-tools
 pycodestyle==2.12.1
     # via -r requirements/quality.txt
-pycparser==2.22
-    # via
-    #   -r requirements/quality.txt
-    #   cffi
 pydantic==2.9.0
     # via
     #   -r requirements/quality.txt
@@ -294,10 +279,6 @@ rstcheck-core==1.2.1
     # via
     #   -r requirements/quality.txt
     #   rstcheck
-secretstorage==3.3.3
-    # via
-    #   -r requirements/quality.txt
-    #   keyring
 shellingham==1.5.4
     # via
     #   -r requirements/quality.txt
