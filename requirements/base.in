@@ -5,7 +5,9 @@ Django>=2.2              # Web application framework
 django-config-models
 django-model-utils       # Provides TimeStampedModel abstract base class
 djangorestframework
-django-simple-history    # Provides historical records on models
+# For some reason, pip is not fetching latest version so adding a min. constraint 
+# edx-platform needs this dependency bump to upgrade django-simple-history in requirements
+django-simple-history>3.10.0
 
 edx-api-doc-tools        # Doc tools to generate swagger docs for APIs
 edx-celeryutils

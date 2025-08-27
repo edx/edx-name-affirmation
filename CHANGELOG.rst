@@ -14,6 +14,11 @@ Change Log
 Unreleased
 ~~~~~~~~~~
 
+[3.0.2]
+~~~~~~~~~~~~~~~~~~~~
+* Upgrade django-simple-history to latest version
+* Pin click and packaging version to fix upgrade failure
+
 [3.0.1] - 2024-10-07
 ~~~~~~~~~~~~~~~~~~~~
 * Upgrade django-simple-history and add migration to match the new version.
