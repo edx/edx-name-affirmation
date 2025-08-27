@@ -16,6 +16,8 @@
 celery>=5.2.2,<6.0.0
 
 # click and packaging are pinned to avoid upgrade issues
+# Created follow up issue to unpin these https://github.com/edx/edx-name-affirmation/issues/256
+# Date: 27-08-2025
 click<8.2.0
 packaging<25.0
 
@@ -27,7 +29,3 @@ sphinx==8.1.3
 sphinx-book-theme==1.1.3
 docutils==0.21.2
 sphinxcontrib-applehelp==2.0.0
-
-# For some reason, pip is not fetching latest version so adding a min. constraint 
-# edx-platform needs this dependency bump to upgrade django-simple-history in requirements
-django-simple-history>3.10.0
