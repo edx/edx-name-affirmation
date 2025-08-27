@@ -16,7 +16,7 @@
 celery>=5.2.2,<6.0.0
 
 # click and packaging are pinned to avoid upgrade issues
-# Created follow up issue to unpin these https://github.com/edx/edx-name-affirmation/issues/256
+# Created follow up issue to unpin click and packaging: https://github.com/edx/edx-name-affirmation/issues/256
 # Date: 27-08-2025
 click<8.2.0
 packaging<25.0
