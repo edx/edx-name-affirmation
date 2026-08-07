@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
         python-version: ["3.11"]
         node-version: ["10"]
-        toxenv: [django42, quality, pii_check, rst_validation]
+        toxenv: [django42, django52, quality, pii_check, rst_validation]
 
     steps:
       - uses: actions/checkout@v1
