@@ -1,7 +1,7 @@
 """Defines serializers used by the Name Affirmation API"""
 
-from datetime import timezone
 import re
+from datetime import timezone
 
 from rest_framework import serializers
 
