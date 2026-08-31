@@ -12,8 +12,8 @@
 # Note: Changes to this file will automatically be used by other repos, referencing
 #  this file from Github directly. It does not require packaging in edx-lint.
 
-# using LTS django version
-Django<5.0
+# allow Django 5.x (including non-LTS minors); block Django 6.x until explicitly validated
+Django<6.0
 
 # elasticsearch>=7.14.0 includes breaking changes in it which caused issues in discovery upgrade process.
 # elastic search changelog: https://www.elastic.co/guide/en/enterprise-search/master/release-notes-7.14.0.html

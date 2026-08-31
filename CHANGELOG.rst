@@ -14,6 +14,11 @@ Change Log
 Unreleased
 ~~~~~~~~~~
 
+[3.0.3] - 2026-08-07
+~~~~~~~~~~~~~~~~~~~~
+* Add Django 5.2 tox/CI coverage.
+* Use pinned compiled requirements in tox test environments.
+
 [3.0.2]
 ~~~~~~~~~~~~~~~~~~~~
 * Upgrade django-simple-history to latest version

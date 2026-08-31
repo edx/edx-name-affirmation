@@ -1,6 +1,7 @@
 """Defines serializers used by the Name Affirmation API"""
 
 import re
+from datetime import timezone
 
 from rest_framework import serializers
 
@@ -15,6 +16,7 @@ class VerifiedNameSerializer(serializers.ModelSerializer):
     """
     Serializer for the VerifiedName Model.
     """
+    created = serializers.SerializerMethodField()
     username = serializers.CharField(source="user.username")
     verified_name = serializers.CharField(required=True)
     profile_name = serializers.CharField(required=True)
@@ -36,6 +38,9 @@ class VerifiedNameSerializer(serializers.ModelSerializer):
             "verification_attempt_status", "proctored_exam_attempt_id", "platform_verification_attempt_id",
             "platform_verification_attempt_status", "status"
         )
+
+    def get_created(self, obj):
+        return obj.created.astimezone(timezone.utc).isoformat()
 
     def validate_verified_name(self, verified_name):
         if self._contains_html(verified_name):

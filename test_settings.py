@@ -73,6 +73,9 @@ TEMPLATES = [{
     },
 }]
 
+USE_TZ = True
+TIME_ZONE = 'UTC'
+
 
 # disable indexing on history_date
 SIMPLE_HISTORY_DATE_INDEX = False
