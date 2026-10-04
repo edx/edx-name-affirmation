@@ -6,7 +6,6 @@ Name affirmation celery tasks
 import logging
 
 from celery import shared_task
-from edx_django_utils.monitoring import set_code_owner_attribute
 
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -25,7 +24,6 @@ MAX_RETRIES = 3
 @shared_task(
     bind=True, autoretry_for=(Exception,), default_retry_delay=DEFAULT_RETRY_SECONDS, max_retries=MAX_RETRIES,
 )
-@set_code_owner_attribute
 def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_status, photo_id_name, full_name):
     """
     Celery task for updating a verified name based on an IDV attempt
@@ -112,7 +110,6 @@ def idv_update_verified_name_task(self, attempt_id, user_id, name_affirmation_st
 @shared_task(
     bind=True, autoretry_for=(Exception,), default_retry_delay=DEFAULT_RETRY_SECONDS, max_retries=MAX_RETRIES,
 )
-@set_code_owner_attribute
 def proctoring_update_verified_name_task(
     self,
     attempt_id,
@@ -192,7 +189,6 @@ def proctoring_update_verified_name_task(
 @shared_task(
     bind=True, autoretry_for=(Exception,), default_retry_delay=DEFAULT_RETRY_SECONDS, max_retries=MAX_RETRIES,
 )
-@set_code_owner_attribute
 def delete_verified_name_task(self, platform_verification_attempt_id, proctoring_attempt_id):
     """
     Celery task to delete a verified name based on an idv or proctoring attempt
