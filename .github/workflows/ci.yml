@@ -18,9 +18,9 @@ jobs:
         toxenv: [py311-django42-celery54, py311-django52-celery54, quality, pii_check, rst_validation]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
