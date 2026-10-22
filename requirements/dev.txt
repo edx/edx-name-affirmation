@@ -29,7 +29,7 @@ cachetools==5.5.0
     # via
     #   -r requirements/ci.txt
     #   tox
-certifi==2024.8.30
+certifi==2026.10.19
     # via
     #   -r requirements/quality.txt
     #   requests
@@ -175,7 +175,7 @@ pbr==6.1.0
     # via
     #   -r requirements/quality.txt
     #   stevedore
-pip-tools==7.5.0
+pip-tools==7.6.2
     # via -r requirements/pip-tools.txt
 pkginfo==1.10.0
     # via
